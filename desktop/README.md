@@ -41,8 +41,13 @@ the View menu of a packaged build.
 
 ## Release
 
-`.github/workflows/release.yml` builds macOS (arm64, x64) and Windows (x64) and
-publishes a GitHub release on every push to `main`. The version is
-`<root version>-seuput.<run number>`; asset names carry no version, so
+`.github/workflows/release.yml` builds macOS (Apple Silicon) and Windows (x64)
+and publishes a GitHub release on every push to `main`.
+
+Versions are `MAJOR.MINOR.PATCH`. `version` in `desktop/package.json` sets
+`MAJOR.MINOR`; each release takes the next free `PATCH` for that pair
+(`v1.0.0`, `v1.0.1`, ...). Bump `MINOR` for new features and `MAJOR` for
+breaking changes by editing that field; the next release then starts at
+`.0`. Asset names carry no version, so
 `https://github.com/SeuPut0705/mgev/releases/latest/download/<asset>` always
 points at the newest build.

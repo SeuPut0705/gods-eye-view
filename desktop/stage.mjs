@@ -96,7 +96,10 @@ function copySources() {
 }
 
 function stagedPackage(root) {
-  const version = process.env.GEV_RELEASE_VERSION || root.version;
+  const desktopVersion = JSON.parse(
+    readFileSync(path.join(desktopDir, 'package.json'), 'utf8'),
+  ).version;
+  const version = process.env.GEV_RELEASE_VERSION || desktopVersion;
   const dependencies = { ...root.dependencies };
   for (const name of RUNTIME_DEV_DEPENDENCIES)
     dependencies[name] = root.devDependencies[name];

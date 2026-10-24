@@ -23,8 +23,13 @@ jobs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - id: version
-        run: echo "version=$(node -p "require('./package.json').version")-seuput.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+        run: |
+          base=$(node -p "require('./desktop/package.json').version.split('.').slice(0, 2).join('.')")
+          last=$(git tag --list "v${base}.*" | sed "s/^v${base}\.//" | { grep -E '^[0-9]+$' || true; } | sort -n | tail -1)
+          echo "version=${base}.$(( ${last:--1} + 1 ))" >> "$GITHUB_OUTPUT"
 
   build:
     needs: version

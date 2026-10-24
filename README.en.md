@@ -12,7 +12,7 @@
 
 <br>
 
-<a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-mac-arm64.dmg"><img alt="Download for macOS Apple Silicon" src="https://img.shields.io/badge/Download-macOS_Apple_Silicon-000000?style=for-the-badge&logo=apple&logoColor=white"></a> <a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-mac-x64.dmg"><img alt="Download for macOS Intel" src="https://img.shields.io/badge/Download-macOS_Intel-333333?style=for-the-badge&logo=apple&logoColor=white"></a> <a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-win-x64.exe"><img alt="Download for Windows x64" src="https://img.shields.io/badge/Download-Windows_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white"></a>
+<a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-mac-arm64.dmg"><img alt="Download for macOS Apple Silicon" src="https://img.shields.io/badge/Download-macOS_Apple_Silicon-000000?style=for-the-badge&logo=apple&logoColor=white"></a> <a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-win-x64.exe"><img alt="Download for Windows x64" src="https://img.shields.io/badge/Download-Windows_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white"></a>
 
 <a href="https://github.com/SeuPut0705/mgev/releases/latest">See all releases →</a>
 
@@ -110,8 +110,9 @@ Use the **Download** buttons at the top. The file names stay the same for every 
 | System | File |
 |---|---|
 | macOS, Apple Silicon | `MGEV-mac-arm64.dmg` |
-| macOS, Intel | `MGEV-mac-x64.dmg` |
 | Windows, x64 | `MGEV-win-x64.exe` |
+
+Intel Macs are not supported.
 
 <details>
 <summary>First-launch steps (unsigned builds)</summary>

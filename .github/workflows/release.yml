@@ -33,7 +33,6 @@ jobs:
       matrix:
         include:
           - { os: macos-latest, platform: mac, arch: arm64 }
-          - { os: macos-latest, platform: mac, arch: x64 }
           - { os: windows-latest, platform: win, arch: x64 }
     runs-on: ${{ matrix.os }}
     env:
@@ -74,7 +73,7 @@ jobs:
           cat > notes.md <<'NOTES'
           Unsigned desktop builds of MGEV (My God's Eye View), a fork of [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view) by Bilawal Sidhu. They are not signed or notarized, so the first launch needs one extra step.
 
-          **macOS**: `MGEV-mac-arm64.dmg` for Apple Silicon, `MGEV-mac-x64.dmg` for Intel. Open the `.dmg`, drag MGEV to Applications, then right-click it and choose **Open**. If macOS says the app is damaged, run this once and open it again:
+          **macOS** (Apple Silicon only; Intel Macs are not supported): open `MGEV-mac-arm64.dmg`, drag MGEV to Applications, then right-click it and choose **Open**. If macOS says the app is damaged, run this once and open it again:
 
           ```
           xattr -cr /Applications/MGEV.app

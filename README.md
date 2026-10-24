@@ -12,7 +12,7 @@
 
 <br>
 
-<a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-mac-arm64.dmg"><img alt="macOS Apple Silicon 다운로드" src="https://img.shields.io/badge/Download-macOS_Apple_Silicon-000000?style=for-the-badge&logo=apple&logoColor=white"></a> <a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-mac-x64.dmg"><img alt="macOS Intel 다운로드" src="https://img.shields.io/badge/Download-macOS_Intel-333333?style=for-the-badge&logo=apple&logoColor=white"></a> <a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-win-x64.exe"><img alt="Windows x64 다운로드" src="https://img.shields.io/badge/Download-Windows_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white"></a>
+<a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-mac-arm64.dmg"><img alt="macOS Apple Silicon 다운로드" src="https://img.shields.io/badge/Download-macOS_Apple_Silicon-000000?style=for-the-badge&logo=apple&logoColor=white"></a> <a href="https://github.com/SeuPut0705/mgev/releases/latest/download/MGEV-win-x64.exe"><img alt="Windows x64 다운로드" src="https://img.shields.io/badge/Download-Windows_x64-0078D6?style=for-the-badge&logo=windows&logoColor=white"></a>
 
 <a href="https://github.com/SeuPut0705/mgev/releases/latest">모든 릴리스 보기 →</a>
 
@@ -110,8 +110,9 @@ MGEV는 [God's Eye View](https://github.com/bilawalsidhu/gods-eye-view)(Bilawal 
 | 시스템 | 파일 |
 |---|---|
 | macOS, Apple Silicon | `MGEV-mac-arm64.dmg` |
-| macOS, Intel | `MGEV-mac-x64.dmg` |
 | Windows, x64 | `MGEV-win-x64.exe` |
+
+Intel 맥은 지원하지 않습니다.
 
 <details>
 <summary>처음 실행할 때 필요한 단계 (서명되지 않은 빌드)</summary>

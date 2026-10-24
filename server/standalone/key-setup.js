@@ -6,7 +6,10 @@ import {
   validateKeySetupUpdates,
   upsertDotenvValues,
 } from '../../src/keySetupCore.mjs';
-import { defaultSourceRoot } from '../providers/common/source-root.js';
+import {
+  dataRoot,
+  defaultSourceRoot,
+} from '../providers/common/source-root.js';
 import path from 'node:path';
 import { readEnvironmentSource as readPinokioEnvironmentSource } from '../../scripts/pinokio-environment.mjs';
 import fs from 'node:fs';
@@ -60,7 +63,7 @@ const DEV_FRESH_EXTERNAL_KEYS_AT_BOOT = new Set(
  *   source classification. Never a value or suffix. The panel renders itself entirely from
  *   this payload, so the key registry stays in one place (src/keySetupCore.mjs).
  * POST /api/setup/keys → validate {ENV_VAR: value} pairs and upsert them into
- *   the repo-root .env (created if absent), set process.env live, then restart
+ *   the repo-root .env (GEV_DATA_DIR/.env when set; created if absent), set process.env live, then restart
  *   the dev server so the client-exposed defines re-inject and the page
  *   reloads itself. Pasting a key in the app IS the whole setup — no
  *   hand-edited env files.
@@ -85,7 +88,7 @@ function keySetupEndpoint({ sourceRoot = defaultSourceRoot } = {}) {
   // Which store this launch owns. A Pinokio-managed launch (marker set by
   // scripts/pinokio-start.mjs) writes the app-scoped pinokio/ENVIRONMENT that
   // applyPinokioEnvironment() treats as authoritative; every other launch
-  // writes the repo-root .env that Vite's loadEnv reads. The panel never
+  // writes the .env (repo root, or GEV_DATA_DIR) that Vite's loadEnv reads. The panel never
   // touches a store some other workflow owns.
   // The launcher marker is read from the BOOT environment captured before
   // Vite's loadEnv merges dotenv files into process.env — otherwise a stray
@@ -95,10 +98,9 @@ function keySetupEndpoint({ sourceRoot = defaultSourceRoot } = {}) {
   const storeName = () =>
     pinokioManaged() ? 'pinokio-environment' : 'env-file';
   const storePath = () =>
-    path.join(
-      sourceRoot,
-      ...(pinokioManaged() ? ['pinokio', 'ENVIRONMENT'] : ['.env']),
-    );
+    pinokioManaged()
+      ? path.join(sourceRoot, 'pinokio', 'ENVIRONMENT')
+      : path.join(dataRoot(sourceRoot), '.env');
   // Read the store, distinguishing "no store yet" from "cannot read this
   // store". Only ENOENT means empty. Every other failure — a permission error,
   // an I/O fault, an undecodable file — must ABORT the save: upserting into a

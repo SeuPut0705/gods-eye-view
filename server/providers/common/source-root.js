@@ -7,4 +7,14 @@ const defaultSourceRoot = path.resolve(
   '../../..',
 );
 
-export { defaultSourceRoot };
+/**
+ * Where the app writes its own state (`.env`, `.gev-logs`, the MCP panel key).
+ * `GEV_DATA_DIR` moves it out of a read-only install such as a packaged
+ * desktop app; unset, state stays beside the source it belongs to.
+ */
+function dataRoot(sourceRoot = defaultSourceRoot) {
+  const dir = process.env.GEV_DATA_DIR;
+  return dir ? path.resolve(dir) : sourceRoot;
+}
+
+export { defaultSourceRoot, dataRoot };

@@ -1,0 +1,99 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: version
+        run: echo "version=$(node -p "require('./package.json').version")-seuput.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-latest, platform: mac, arch: arm64 }
+          - { os: macos-latest, platform: mac, arch: x64 }
+          - { os: windows-latest, platform: win, arch: x64 }
+    runs-on: ${{ matrix.os }}
+    env:
+      GEV_RELEASE_VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Install desktop tooling
+        working-directory: desktop
+        run: npm ci
+      - name: Stage and package
+        working-directory: desktop
+        run: npm run dist -- --${{ matrix.platform }} --${{ matrix.arch }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}-${{ matrix.arch }}
+          path: |
+            desktop/release/*.dmg
+            desktop/release/*.zip
+            desktop/release/*.exe
+          if-no-files-found: error
+
+  release:
+    needs: [version, build]
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: release-*
+          path: files
+          merge-multiple: true
+      - name: Write release notes
+        run: |
+          cat > notes.md <<'NOTES'
+          Unsigned desktop builds of God's Eye View. They are not signed or notarized, so the first launch needs one extra step.
+
+          **macOS** (`mac-arm64` for Apple Silicon, `mac-x64` for Intel): open the `.dmg`, drag the app to Applications, then right-click it and choose **Open**. If macOS says the app is damaged, run this once and open it again:
+
+          ```
+          xattr -cr "/Applications/God's Eye View.app"
+          ```
+
+          **Windows** (`win-x64`): run the `.exe`. SmartScreen warns about an unknown publisher; choose **More info**, then **Run anyway**.
+
+          Keys saved in Provider Settings, caches and logs are stored in your user data folder, not in the app.
+          NOTES
+      - name: Publish release
+        run: |
+          tag="v${VERSION}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$tag" files/* --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$tag" files/* \
+              --repo "$GITHUB_REPOSITORY" \
+              --target "$GITHUB_SHA" \
+              --title "God's Eye View ${VERSION}" \
+              --notes-file notes.md
+          fi

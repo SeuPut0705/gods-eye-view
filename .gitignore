@@ -28,3 +28,8 @@ pinokio/.installed
 
 # Transient: a release interrupted mid-assembly (npm run changelog recovers it)
 changelog.d/.assembling/
+
+# Electron desktop packaging (desktop/): staged app and build output
+desktop/.stage/
+desktop/release/
+desktop/node_modules/

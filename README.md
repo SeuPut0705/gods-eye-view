@@ -52,6 +52,29 @@ is not executable, run `chmod +x Start-Mac.command` once.
 
 Other ways to run (Pinokio, terminal, Docker) are in [Quick Start](#-quick-start).
 
+### Desktop app (no Node.js needed)
+
+Download the installer for your system from the
+[Releases page](https://github.com/SeuPut0705/mgev/releases):
+
+| System | File |
+|---|---|
+| macOS, Apple Silicon | `gods-eye-view-<version>-mac-arm64.dmg` |
+| macOS, Intel | `gods-eye-view-<version>-mac-x64.dmg` |
+| Windows | `gods-eye-view-<version>-win-x64.exe` |
+
+The builds are **unsigned**, so the first launch needs one extra step.
+**macOS:** drag the app to Applications, then right-click it and choose **Open**.
+If macOS still says the app is damaged, run
+`xattr -cr "/Applications/God's Eye View.app"` once and open it again.
+**Windows:** SmartScreen warns about an unknown publisher. Choose
+**More info → Run anyway**.
+
+Keys saved in Provider Settings, caches and logs live in your user data folder
+(`~/Library/Application Support/God's Eye View` on macOS,
+`%APPDATA%\God's Eye View` on Windows). Build instructions are in
+[desktop/README.md](desktop/README.md).
+
 ---
 
 <div align="center">

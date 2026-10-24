@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; img-src file:; style-src 'unsafe-inline'"
+    />
+    <title>MGEV</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #0a0a0f;
+        color: #e6e8ef;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-app-region: drag;
+        cursor: default;
+      }
+      main {
+        height: 100%;
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        gap: 14px;
+      }
+      img {
+        width: 168px;
+        margin-bottom: 10px;
+        animation: fade 600ms ease-out both;
+      }
+      h1 {
+        margin: 0;
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: 0.42em;
+        margin-right: -0.42em;
+      }
+      p {
+        margin: 0;
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #8a8fa3;
+      }
+      .bar {
+        position: relative;
+        width: 168px;
+        height: 2px;
+        margin-top: 18px;
+        overflow: hidden;
+        border-radius: 1px;
+        background: #1c2030;
+      }
+      .bar::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        width: 40%;
+        background: #00f6ff;
+        animation: slide 1.1s ease-in-out infinite;
+      }
+      @keyframes slide {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(250%);
+        }
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="../client/logo.svg" alt="" />
+      <h1>MGEV</h1>
+      <p>My God’s Eye View</p>
+      <div class="bar"></div>
+    </main>
+  </body>
+</html>

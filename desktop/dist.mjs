@@ -2,7 +2,7 @@ import { Arch, build, Platform } from 'electron-builder';
 import { parseTarget, stage } from './stage.mjs';
 
 const target = parseTarget(process.argv.slice(2));
-stage(target);
+await stage(target);
 
 const platform = Platform[target.platform === 'mac' ? 'MAC' : 'WINDOWS'];
 await build({

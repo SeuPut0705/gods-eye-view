@@ -1,18 +1,28 @@
-import { app, BrowserWindow, dialog, session, shell } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  Menu,
+  screen,
+  session,
+  shell,
+} from 'electron';
 import fs from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { prebuiltClientPlugin } from './prebuilt-client.mjs';
 
-const appRoot = path.dirname(fileURLToPath(import.meta.url));
+const desktopDir = path.dirname(fileURLToPath(import.meta.url));
+const appRoot = path.resolve(desktopDir, '..');
 /** A fixed port keeps the page's origin, and so its localStorage and
  * IndexedDB, the same on every launch. Only a busy port falls back. */
 const PREFERRED_PORT = 47173;
-const SPLASH =
-  'data:text/html;charset=utf-8,' +
-  encodeURIComponent(
-    '<body style="margin:0;background:#0a0a0f;color:#8a8fa3;font:15px system-ui;display:grid;place-items:center;height:100vh">Starting God\u2019s Eye View\u2026</body>',
-  );
+const DEFAULT_SIZE = { width: 1440, height: 900 };
+const MIN_SIZE = { width: 960, height: 600 };
+const BACKGROUND = '#0a0a0f';
+/** The View menu offers DevTools to unpackaged runs or with MGEV_DEVTOOLS=1. */
+const devTools = !app.isPackaged || process.env.MGEV_DEVTOOLS === '1';
 
 let server = null;
 let mainWindow = null;
@@ -38,24 +48,11 @@ async function pickPort() {
   }
 }
 
-/** vite-plugin-cesium serves Cesium from the cwd-relative path
- * node_modules/cesium/Build, and the cwd is the data directory (the providers
- * cache under it), so the data directory carries a link to the app's modules. */
-function linkModules(dataDir) {
-  const link = path.join(dataDir, 'node_modules');
-  try {
-    fs.unlinkSync(link);
-  } catch (error) {
-    if (error.code !== 'ENOENT') throw error;
-  }
-  fs.symlinkSync(path.join(appRoot, 'node_modules'), link, 'junction');
-}
-
 async function startServer() {
   const dataDir = app.getPath('userData');
   fs.mkdirSync(dataDir, { recursive: true });
-  linkModules(dataDir);
   process.env.GEV_DATA_DIR = dataDir;
+  // Providers keep their caches under the working directory.
   process.chdir(dataDir);
   const port = await pickPort();
   const { createServer } = await import('vite');
@@ -63,6 +60,7 @@ async function startServer() {
     root: appRoot,
     cacheDir: path.join(dataDir, 'vite-cache'),
     configLoader: 'native',
+    plugins: [prebuiltClientPlugin(path.join(appRoot, 'client'))],
     server: { host: '127.0.0.1', port, strictPort: true, open: false },
   });
   await server.listen();
@@ -94,41 +92,125 @@ function installSessionPolicy() {
   );
 }
 
+function installMenu() {
+  const isMac = process.platform === 'darwin';
+  app.setAboutPanelOptions({
+    applicationName: 'MGEV',
+    applicationVersion: app.getVersion(),
+    credits:
+      "My God's Eye View, based on God's Eye View by Bilawal Sidhu (MIT License).",
+  });
+  Menu.setApplicationMenu(
+    Menu.buildFromTemplate([
+      { role: isMac ? 'appMenu' : 'fileMenu' },
+      { role: 'editMenu' },
+      {
+        label: 'View',
+        submenu: [
+          { role: 'reload' },
+          { role: 'forceReload' },
+          { type: 'separator' },
+          { role: 'togglefullscreen' },
+          ...(devTools ? [{ role: 'toggleDevTools' }] : []),
+        ],
+      },
+      { role: 'windowMenu' },
+    ]),
+  );
+}
+
+const windowStateFile = () =>
+  path.join(app.getPath('userData'), 'window-state.json');
+
+/** Last session's bounds, when they still overlap a connected display. */
+function loadWindowState() {
+  try {
+    const { bounds, maximized } = JSON.parse(
+      fs.readFileSync(windowStateFile(), 'utf8'),
+    );
+    const { x, y, width, height } = bounds;
+    if (![x, y, width, height].every(Number.isFinite)) return {};
+    const onScreen = screen
+      .getAllDisplays()
+      .some(
+        ({ workArea: area }) =>
+          x < area.x + area.width &&
+          x + width > area.x &&
+          y < area.y + area.height &&
+          y + height > area.y,
+      );
+    if (!onScreen) return {};
+    return {
+      bounds: {
+        x,
+        y,
+        width: Math.max(width, MIN_SIZE.width),
+        height: Math.max(height, MIN_SIZE.height),
+      },
+      maximized: maximized === true,
+    };
+  } catch {
+    return {};
+  }
+}
+
+function saveWindowState(window) {
+  try {
+    fs.writeFileSync(
+      windowStateFile(),
+      JSON.stringify({
+        bounds: window.getNormalBounds(),
+        maximized: window.isMaximized(),
+      }),
+    );
+  } catch (error) {
+    console.warn('[MGEV] Window state not saved:', error?.message || error);
+  }
+}
+
 function createWindow() {
+  const state = loadWindowState();
   mainWindow = new BrowserWindow({
-    width: 1440,
-    height: 900,
-    backgroundColor: '#0a0a0f',
-    title: "God's Eye View",
+    ...DEFAULT_SIZE,
+    ...state.bounds,
+    minWidth: MIN_SIZE.width,
+    minHeight: MIN_SIZE.height,
+    show: false,
+    backgroundColor: BACKGROUND,
+    title: 'MGEV',
+    autoHideMenuBar: true,
     webPreferences: { contextIsolation: true, sandbox: true },
   });
+  if (state.maximized) mainWindow.maximize();
+  mainWindow.once('ready-to-show', () => mainWindow?.show());
+  // The page's own <title> would rename the window.
+  mainWindow.on('page-title-updated', (event) => event.preventDefault());
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (isLocal(url)) return { action: 'allow' };
     openExternally(url);
     return { action: 'deny' };
   });
   mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (isLocal(url) || url.startsWith('data:')) return;
+    if (isLocal(url)) return;
     event.preventDefault();
     openExternally(url);
   });
+  mainWindow.on('close', () => saveWindowState(mainWindow));
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-  mainWindow.loadURL(SPLASH);
+  mainWindow.loadFile(path.join(desktopDir, 'splash.html'));
 }
 
 async function start() {
+  installMenu();
   createWindow();
   try {
     const origin = await startServer();
     installSessionPolicy();
     await mainWindow?.loadURL(origin);
   } catch (error) {
-    dialog.showErrorBox(
-      "God's Eye View could not start",
-      error?.stack || String(error),
-    );
+    dialog.showErrorBox('MGEV could not start', error?.stack || String(error));
     app.exit(1);
   }
 }

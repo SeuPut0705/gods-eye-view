@@ -2,47 +2,53 @@
   "name": "gods-eye-view-desktop",
   "private": true,
   "version": "0.0.0",
-  "description": "Unsigned Electron packaging for God's Eye View",
+  "description": "Unsigned Electron packaging for MGEV (My God's Eye View)",
   "type": "module",
   "scripts": {
     "stage": "node stage.mjs",
-    "dist": "node dist.mjs"
+    "dist": "node dist.mjs",
+    "icons": "node icons.mjs"
   },
   "devDependencies": {
     "electron": "45.0.0",
     "electron-builder": "26.18.0"
   },
   "build": {
-    "appId": "io.github.seuput0705.gods-eye-view",
-    "productName": "God's Eye View",
+    "appId": "io.github.seuput0705.mgev",
+    "productName": "MGEV",
     "copyright": "Copyright (c) 2026 Bilawal Sidhu",
-    "artifactName": "gods-eye-view-${version}-${os}-${arch}.${ext}",
+    "artifactName": "MGEV-${os}-${arch}.${ext}",
     "directories": {
       "app": ".stage",
       "output": "release"
     },
     "asar": false,
     "npmRebuild": false,
+    "electronLanguages": [
+      "en",
+      "ko"
+    ],
     "mac": {
       "category": "public.app-category.utilities",
-      "icon": "../public/icons/icon-512.png",
+      "icon": "icons/icon.png",
       "identity": null,
-      "target": [
-        "dmg",
-        "zip"
-      ],
+      "target": "dmg",
       "extendInfo": {
-        "NSMicrophoneUsageDescription": "God's Eye View uses the microphone for hands-free voice control."
+        "NSMicrophoneUsageDescription": "MGEV uses the microphone for hands-free voice control."
       }
     },
+    "dmg": {
+      "title": "MGEV"
+    },
     "win": {
-      "icon": "../public/icons/icon-512.png",
+      "icon": "icons/icon.ico",
       "target": "nsis"
     },
     "nsis": {
       "oneClick": false,
       "perMachine": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "MGEV"
     }
   }
 }

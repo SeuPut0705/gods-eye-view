@@ -611,7 +611,10 @@ test('the credit line is never suppressed to make room', () => {
   for (const block of creditBlocks) {
     assert.doesNotMatch(block, /display\s*:\s*none/, 'the credit must never be display:none');
     assert.doesNotMatch(block, /visibility\s*:\s*hidden/, 'the credit must never be hidden');
-    assert.doesNotMatch(block, /opacity\s*:\s*0(\D|$)/, 'the credit must never be faded out');
+    assert.doesNotMatch(block, /opacity\s*:\s*0(\.0*)?\s*(;|$)/, 'the credit must never be faded out');
+    for (const match of block.matchAll(/opacity\s*:\s*([\d.]+)/g)) {
+      assert.ok(Number(match[1]) >= 0.5, `the credit must stay legible; opacity ${match[1]} is too faint`);
+    }
   }
   assert.match(css, /body\.ui-clean-view #cesium-credits,\s*\n\s*body\.recording-mode #cesium-credits \{[^}]*bottom: 36px;/);
 });

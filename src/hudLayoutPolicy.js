@@ -5,3 +5,6 @@ export const HUD_LAYOUTS = Object.freeze([
   'minimal',
   'cyber',
 ]);
+
+/** Layout used when neither the user, a share link nor a scene chose one. */
+export const DEFAULT_HUD_LAYOUT = 'minimal';

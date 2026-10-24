@@ -320,6 +320,27 @@ body.cockpit-mode #cockpit-cloud-effects.active {
 #cesium-credits .cesium-credit-expand-link {
   color: rgba(232, 234, 237, 0.7);
 }
+/* Minimized, never hidden: one small, low-contrast line. The Cesium ion logo is
+   scaled down (not removed) because Cesium ion's terms require it whenever ion
+   assets are in use; "Powered by Esri" and the "Data attribution" link keep
+   their text. Hover or keyboard focus brings the whole line back to full
+   brightness. */
+#cesium-credits {
+  opacity: 0.55;
+  transition: opacity var(--transition-fast, 0.15s ease);
+}
+#cesium-credits:hover,
+#cesium-credits:focus-within {
+  opacity: 1;
+}
+#cesium-credits .cesium-credit-logoContainer img {
+  height: 13px;
+  width: auto;
+  vertical-align: middle;
+}
+#cesium-credits .cesium-credit-logoContainer {
+  margin-inline-end: 6px;
+}
 
 /* Cesium's stock attribution lightbox grows with every registered data source.
    Keep the title and close affordance fixed while the complete, unabridged
@@ -604,15 +625,6 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   font-weight: 300;
 }
 
-#title-bar .subtitle {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 5px;
-  color: var(--text-dim);
-  margin-top: 8px;
-  text-transform: uppercase;
-}
-
 #title-bar .frame-rate-readout {
   margin-top: 6px;
   font-family: var(--font-mono);
@@ -620,36 +632,4 @@ body.cockpit-mode #cockpit-cloud-effects.active {
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
   color: var(--accent);
-}
-
-/* ── Style Indicator ──────────────────────────── */
-#style-indicator {
-  position: fixed;
-  top: 32px;
-  right: 36px;
-  z-index: 100;
-  pointer-events: none;
-  user-select: none;
-  text-align: right;
-}
-
-#style-indicator .indicator-label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-}
-
-#style-indicator .indicator-value {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 5px;
-  color: var(--accent);
-  margin-top: 4px;
-  text-shadow: 0 0 20px var(--accent-glow);
-  transition: var(--transition-smooth);
 }

@@ -75,7 +75,6 @@ function styleOwner(t, initialVariant = 'cyber') {
     },
     services: { governorRequestRender() {}, setDetectionStyle() {} },
     _hudLayoutSelect: { value: initialVariant },
-    _styleIndicator: {},
     _setBloomEnabled: (value) => calls.push(['bloom', value]),
     _setSharpenEnabled: (value) => calls.push(['sharpen', value]),
     _applyDetectionPreset: (value) => calls.push(['detection', value]),
@@ -533,10 +532,10 @@ test('Cyber side panels share one width and one framed surface material', () => 
   );
 });
 
-test('Cyber is a canonical HUD layout with a safe Tactical fallback', () => {
+test('Cyber is a canonical HUD layout and Minimal is the default fallback', () => {
   assert.deepEqual(HUD_LAYOUTS, ['tactical', 'operator', 'minimal', 'cyber']);
   assert.equal(normalizeHudLayout('CYBER'), 'cyber');
-  assert.equal(normalizeHudLayout('unknown'), 'tactical');
+  assert.equal(normalizeHudLayout('unknown'), 'minimal');
 });
 
 test('the Cyber HUD owns the global shell skin and leaving it restores defaults', () => {
@@ -684,10 +683,6 @@ test('the Display selector, voice schema and final stylesheet expose Cyber', () 
   assert.match(cyberStyles, /\.hud-top-left/);
   assert.match(cyberStyles, /transparent 0 min\(40vw, 52vh\)/);
   assert.match(cyberStyles, /\.hud-bottom-bar \{\s*display: none;/);
-  assert.match(
-    cyberStyles,
-    /#intel-hud\[data-variant='cyber'\] \.hud-top-bar \{\s*display: none;/,
-  );
   // Cyber shares the measured rail/credit keep-out rather than overriding it.
   assert.doesNotMatch(
     cyberStyles,
@@ -705,10 +700,6 @@ test('the Display selector, voice schema and final stylesheet expose Cyber', () 
   assert.match(
     cyberStyles,
     /#left-panel-stack \{[\s\S]*?top: var\(--cyber-left-rail-top\) !important;[\s\S]*?bottom: calc\(2vh \+ 13rem\);/,
-  );
-  assert.match(
-    cyberStyles,
-    /\.hud-left-edge \{\s*top: calc\(var\(--cyber-left-rail-top\) - 18px\);\s*left: 14px;/,
   );
   assert.match(
     rightRail,
@@ -847,11 +838,4 @@ test('Cyber Display uses a red title without a panel-specific center tab', () =>
   assert.doesNotMatch(cyberStyles, /#pp-toggles[^,{]*::after\s*\{/);
   assert.match(cyberStyles, /isolation: isolate;\s*clip-path: none;/);
   assert.match(cyberStyles, /#pp-toggles:not\(\.collapsed\)::before/);
-});
-
-test('Cyber omits only the fictional classification and system header lines', () => {
-  assert.match(
-    cyberStyles,
-    /#intel-hud\[data-variant='cyber'\] \.hud-top-left \.hud-classification,\s*#intel-hud\[data-variant='cyber'\] \.hud-top-left \.hud-system\s*\{\s*display: none;\s*\}/,
-  );
 });

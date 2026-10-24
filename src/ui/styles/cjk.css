@@ -1,3 +1,50 @@
+/* Hangul font stacks. JetBrains Mono and Inter ship no Hangul, so Korean text
+   would otherwise land in whatever the platform picks first. System faces are
+   listed explicitly (macOS, Windows, Linux) and no webfont is bundled: a Korean
+   webfont costs hundreds of KB per weight and the system faces are always
+   present on the platforms we ship to. Latin glyphs keep their own faces. */
+@font-face {
+  /* The mono face's 0.6em space is far wider than a Hangul word gap; take only
+     U+0020 from a system Hangul face so Korean reads as ordinary prose. */
+  font-family: 'MGEV Hangul Space';
+  src:
+    local('Apple SD Gothic Neo'), local('AppleSDGothicNeo-Regular'),
+    local('Malgun Gothic'), local('Noto Sans KR'), local('Noto Sans CJK KR'),
+    local('NanumGothic');
+  unicode-range: U+0020;
+}
+html:lang(ko) {
+  --font-mono-base:
+    'JetBrains Mono', 'SF Mono', 'Fira Code', 'Apple SD Gothic Neo',
+    'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', 'NanumGothic',
+    monospace;
+  --font-mono: 'MGEV Hangul Space', var(--font-mono-base);
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Malgun Gothic', 'Noto Sans KR', 'Noto Sans CJK KR', 'NanumGothic',
+    sans-serif;
+  /* Break Korean at word gaps, never inside a word, unless a word cannot fit. */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Latin-only readouts (brand mark, sensor codes) keep the original mono
+   spacing; only translated HUD lines take the narrower Hangul word gap. */
+html:lang(ko) #title-bar h1,
+html:lang(ko) .loader-content h2,
+html:lang(ko) #intel-hud,
+html:lang(ko) #cockpit-hud,
+html:lang(ko) [translate='no'] {
+  --font-mono: var(--font-mono-base);
+}
+html:lang(ko) #intel-hud .hud-mode,
+html:lang(ko) #intel-hud .hud-summary,
+html:lang(ko) #intel-hud .hud-summary-label,
+html:lang(ko) #intel-hud .hud-ais-vessel {
+  --font-mono: 'MGEV Hangul Space', var(--font-mono-base);
+  letter-spacing: 0.04em;
+}
+
 /* Tight tracking keeps Korean labels readable; preserve Latin tracking for
    intel HUD readouts and content marked translate="no", including its containers. */
 html:lang(ko)
@@ -16,7 +63,34 @@ html:lang(ko)
 html:lang(ko) #command-dock .gev-mic-label,
 html:lang(ko) #command-dock #gev-voice-detail,
 html:lang(ko) .gev-voice-tier-btn,
-html:lang(ko) .panel-layer-toggle {
+html:lang(ko) .panel-layer-toggle,
+html:lang(ko) .panel-title,
+html:lang(ko) .pp-header-label,
+html:lang(ko) .pp-slider-mini-label,
+html:lang(ko) .cctv-summary-label,
+html:lang(ko) #cctv-source-badge,
+html:lang(ko) #traffic-sync-label,
+html:lang(ko) #cctv-sync-label,
+html:lang(ko) #map-source-label,
+html:lang(ko) #radio-layer-state,
+html:lang(ko) .scene-shot-btn,
+html:lang(ko) .scene-shot-meta,
+html:lang(ko) #gev-voice-control #gev-voice-status,
+html:lang(ko) #gev-voice-control .gev-voice-provider-field,
+html:lang(ko) #gev-voice-control .gev-voice-help-kicker,
+html:lang(ko) #command-dock .gev-voice-error-dismiss,
+html:lang(ko) #command-dock .gev-voice-error-hint,
+html:lang(ko) #pp-toggles .pp-header-label,
+html:lang(ko)
+  :is(
+    #data-panel,
+    #cctv-panel,
+    #radio-panel,
+    #scene-panel,
+    #recent-imagery-panel,
+    #weather-panel
+  ).collapsed
+  .panel-title {
   font-size: 9px;
 }
 

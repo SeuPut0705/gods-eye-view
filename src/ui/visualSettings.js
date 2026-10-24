@@ -1597,10 +1597,6 @@ export class VisualSettings {
       btn.classList.toggle('active', btn.dataset.style === styleName);
     });
 
-    // Update style indicator
-    this._styleIndicator.textContent = STYLE_STATUS_LABELS[styleName]
-      ? t(STYLE_STATUS_LABELS[styleName])
-      : styleName.toUpperCase();
     this._updateStyleMiniStatus(styleName);
 
     // Update parameter sliders

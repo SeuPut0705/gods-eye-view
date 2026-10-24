@@ -24,7 +24,7 @@ import { bindClearLayersControl } from './layers.js';
 import { bindCameraOrientationControls } from './cameraOrientationControls.js';
 import { createMapSourceControls } from './mapSource.js';
 import { STYLES } from './effects.js';
-import { isHudLayout } from '../hudLayouts.js';
+import { DEFAULT_HUD_LAYOUT, isHudLayout } from '../hudLayouts.js';
 import {
   getCyberSonarControlState,
   setCyberSonarControls,
@@ -233,7 +233,6 @@ export class StyleManager extends ShellFacade {
         _sharpenSliderValue: this._sharpenSliderValue,
         _sliderContainer: this._sliderContainer,
         _sliderPanel: this._sliderPanel,
-        _styleIndicator: this._styleIndicator,
         _styleMiniValue: this._styleMiniValue,
       },
       operations: {
@@ -1683,9 +1682,9 @@ export class StyleManager extends ShellFacade {
 
   _initHUDToggle() {
     if (this._hudLayoutSelect) {
-      this._hudLayoutSelect.value = 'tactical';
+      this._hudLayoutSelect.value = DEFAULT_HUD_LAYOUT;
     }
-    this._setHudVariant('tactical');
+    this._setHudVariant(DEFAULT_HUD_LAYOUT);
     this.hud.setMode('on');
     this._updateHudButtonState();
 

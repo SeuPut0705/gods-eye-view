@@ -832,16 +832,9 @@
   box-shadow: none;
 }
 
-:root[data-ui-theme='cyber'] #title-bar h1,
-:root[data-ui-theme='cyber'] #style-indicator {
+:root[data-ui-theme='cyber'] #title-bar h1 {
   color: #f5f7f6;
   text-shadow: 2px 2px 0 rgba(196, 84, 84, 0.3);
-}
-
-:root[data-ui-theme='cyber'] #title-bar .subtitle,
-:root[data-ui-theme='cyber'] #style-indicator .label,
-:root[data-ui-theme='cyber'] #style-indicator .indicator-label {
-  color: var(--cyber-red-bright);
 }
 
 :root[data-ui-theme='cyber'] #title-bar .title-logo {
@@ -1432,10 +1425,6 @@
   display: none;
 }
 
-:root[data-ui-theme='cyber'] #key-setup-chip [data-key-setup-chip-label] {
-  display: none;
-}
-
 :root[data-ui-theme='cyber'] #north-up-view .camera-compass-n {
   color: var(--text-secondary);
 }
@@ -1558,16 +1547,6 @@
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
 }
 
-#intel-hud[data-variant='cyber'] .hud-top-bar {
-  display: none;
-}
-
-/* Cyber keeps the useful style and locality readouts, not fictional IDs. */
-#intel-hud[data-variant='cyber'] .hud-top-left .hud-classification,
-#intel-hud[data-variant='cyber'] .hud-top-left .hud-system {
-  display: none;
-}
-
 #intel-hud[data-variant='cyber'] .hud-bottom-bar {
   bottom: calc(2vh + 9.8rem);
   width: min(48vw, 680px);
@@ -1641,13 +1620,6 @@
        The shared rail anchor keeps expanded left/right panels aligned. */
     --cyber-hud-card-top: max(100px, 10.25vh);
     --cyber-left-rail-top: max(220px, calc(var(--cyber-hud-card-top) + 120px));
-  }
-
-  /* Keep the rotated COLL / ONA telemetry in the upper clearance lane. Its
-     lower edge follows the panel rail instead of crossing expanded controls. */
-  #intel-hud[data-variant='cyber'] .hud-left-edge {
-    top: calc(var(--cyber-left-rail-top) - 18px);
-    left: 14px;
   }
 
   :root[data-ui-theme='cyber'] #left-panel-stack {
@@ -1861,7 +1833,6 @@
     background-size: 78px 78px;
   }
 
-  #intel-hud[data-variant='cyber'] .hud-top-bar,
   #intel-hud[data-variant='cyber'] .hud-bottom-bar {
     display: none;
   }

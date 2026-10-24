@@ -7,7 +7,7 @@ import {
 /**
  * The POWER UP surface — paste a key, get a power.
  *
- * A small chip sits bottom-right whenever the app is running under the dev
+ * A small bolt icon button sits bottom-right whenever the app is running under the dev
  * server with keys still missing. It opens a dialog rendered ENTIRELY from
  * GET /api/setup/status (the registry lives in src/keySetupCore.mjs and this
  * module never duplicates it): one row per key, what it unlocks, where to get
@@ -430,7 +430,7 @@ export async function initKeySetup({
   disposePlacement = bindKeySetupPlacement(documentRef, chip);
   const applyButton = root.querySelector('[data-key-setup-apply]');
   const closeButton = root.querySelector('[data-key-setup-close]');
-  const chipLabel = chip.querySelector('[data-key-setup-chip-label]') || chip;
+  const chipCount = chip.querySelector('[data-key-setup-chip-count]');
   const statusLine = root.querySelector('[data-key-setup-status]');
   const defaultStatusText = statusLine?.textContent || '';
   let busy = false;
@@ -445,7 +445,8 @@ export async function initKeySetup({
   const render = (nextStatus) => {
     if (disposed) return;
     status = nextStatus;
-    chipLabel.textContent = keySetupChipLabel(status);
+    const missing = Math.max(0, (status.total || 0) - (status.setCount || 0));
+    if (chipCount) chipCount.textContent = missing > 0 ? String(missing) : '';
     chip.title = t('Project keys: {status}', {
       status: keySetupChipLabel(status),
     });

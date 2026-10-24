@@ -248,14 +248,6 @@ body.cockpit-mode .cockpit-position-readout {
   bottom: max(clamp(22px, 4vh, 42px), 3.5rem);
 }
 
-/* Below this width the full chip label runs into the centred dock: the chip
-   keeps its bolt, and its count stays in its title and aria-label. */
-@media (max-width: 1180px) {
-  #corner-actions #key-setup-chip [data-key-setup-chip-label] {
-    display: none;
-  }
-}
-
 @media (max-width: 767.98px) {
   /* Phone: the corner beside the dock, clear of the attribution above it.
      There is room for one button across, so the chip stacks on the globe. */
@@ -263,11 +255,6 @@ body.cockpit-mode .cockpit-position-readout {
     inset-inline-end: 10px;
     inset-block-end: max(16px, env(safe-area-inset-bottom));
     flex-direction: column;
-  }
-
-  #corner-actions #key-setup-chip {
-    justify-content: center;
-    padding-inline: 0.5rem;
   }
 
   /* Phone: the globe alone; the label stays in aria-label. */

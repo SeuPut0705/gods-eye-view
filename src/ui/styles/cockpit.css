@@ -1977,7 +1977,6 @@ html:not([lang='en']) .cockpit-brief-tabs button {
 body.cockpit-mode
   :is(
     #title-bar,
-    #style-indicator,
     #top-center-actions,
     #traffic-sync-chip,
     #cctv-sync-chip,
@@ -2047,12 +2046,6 @@ body.cockpit-mode #intel-hud .hud-summary-wrap {
 }
 body.cockpit-mode #intel-hud .hud-summary {
   font-size: 9px;
-}
-body.cockpit-mode #intel-hud .hud-left-edge {
-  left: 22px;
-}
-body.cockpit-mode #intel-hud .hud-right-edge {
-  right: 22px;
 }
 
 @media (max-width: 760px) {

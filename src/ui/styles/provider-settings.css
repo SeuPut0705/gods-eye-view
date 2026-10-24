@@ -7,14 +7,14 @@
 /* The chip sits in the bottom-right corner row (#corner-actions,
    locale-picker.css), which owns the position. */
 #key-setup-chip {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.7rem;
+  justify-content: center;
+  width: 2.1rem;
+  min-height: 2.1rem;
+  padding: 0;
   color: rgba(225, 244, 248, 0.92);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.09rem;
   background: linear-gradient(
     145deg,
     rgba(10, 27, 37, 0.92),
@@ -48,7 +48,34 @@
 
 #key-setup-chip .material-symbols-outlined {
   color: #55dff5;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
+}
+
+/* Count of keys still missing: a small corner badge, not a sentence. The full
+   "POWER UP · N KEYS WAITING" text lives in the button's title and aria-label. */
+#key-setup-chip .key-setup-chip-count {
+  position: absolute;
+  inset-block-start: 0.18rem;
+  inset-inline-end: 0.18rem;
+  min-width: 0.85rem;
+  height: 0.85rem;
+  padding: 0 0.2rem;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  color: #06121b;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  background: #ffb347;
+  border-radius: 0.45rem;
+  pointer-events: none;
+}
+
+#key-setup-chip .key-setup-chip-count:empty {
+  display: none;
 }
 
 #key-setup-chip[hidden] {

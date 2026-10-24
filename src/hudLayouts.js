@@ -1,11 +1,9 @@
 import { applyCyberSonarThemePhase } from './cyberSonar.js';
 import { syncRadioPanelPlacement } from './ui/radioPanelPlacement.js';
-import { HUD_LAYOUTS } from './hudLayoutPolicy.js';
-export { HUD_LAYOUTS } from './hudLayoutPolicy.js';
+import { DEFAULT_HUD_LAYOUT, HUD_LAYOUTS } from './hudLayoutPolicy.js';
+export { DEFAULT_HUD_LAYOUT, HUD_LAYOUTS } from './hudLayoutPolicy.js';
 
 /** Canonical HUD layouts shared by the UI, voice schema and HUD renderer. */
-
-export const DEFAULT_HUD_LAYOUT = 'tactical';
 
 /** Visual treatment applied only when an operator explicitly enters Cyber. */
 export const CYBER_VISUAL_DEFAULTS = Object.freeze({

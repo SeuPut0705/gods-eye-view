@@ -94,8 +94,7 @@ body.mobile-shell #title-bar .title-logo {
   width: 58px;
 }
 
-body.mobile-shell #title-bar h1 > :not(.title-logo),
-body.mobile-shell #title-bar .subtitle {
+body.mobile-shell #title-bar h1 > :not(.title-logo) {
   display: none;
 }
 
@@ -105,9 +104,7 @@ body.mobile-shell #top-center-actions {
 }
 
 /* ── HUD: one compact readout under the top bar ────────────────────────── */
-body.mobile-shell #intel-hud .hud-edge,
 body.mobile-shell #intel-hud .hud-corner,
-body.mobile-shell #intel-hud .hud-top-bar,
 body.mobile-shell #intel-hud .hud-bottom-bar {
   display: none;
 }

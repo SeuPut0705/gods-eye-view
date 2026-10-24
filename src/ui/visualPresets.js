@@ -6,6 +6,7 @@ import { nightVisionShader } from '../styles/surveillance.js';
 import { thermalShader } from '../styles/thermal.js';
 import { BLOOM_INTENSITY_DEFAULT } from '../bloom.js';
 import { msg } from '../i18n/index.js';
+import { DEFAULT_HUD_LAYOUT } from '../hudLayoutPolicy.js';
 
 /** Duration (ms) for shader intensity crossfade between style presets. */
 export const TRANSITION_DURATION_MS = 500;
@@ -45,7 +46,7 @@ export const MILITARY_DETECTION_PRESET = Object.freeze({
 export const GLOBAL_POST_DEFAULTS = {
   bloom: { enabled: false, intensity: BLOOM_INTENSITY_DEFAULT },
   sharpen: { enabled: true, intensity: 49 },
-  hudVariant: 'tactical',
+  hudVariant: DEFAULT_HUD_LAYOUT,
   hudVisible: true,
   // Detection is ON for EVERY style on a first run, Normal included (owner
   // directive 2026-08-22: "detect should also be on by default"). It is the

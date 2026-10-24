@@ -30,6 +30,30 @@ _“pretty cool”_ — [Brendan Eich](https://x.com/BrendanEich/status/20945920
 
 ---
 
+## ▶️ How to Run
+
+1. Install **[Node.js 24 LTS](https://nodejs.org/)** (once).
+2. Get this repository: `git clone`, or **Code → Download ZIP** and unzip it.
+3. Double-click the launcher for your system:
+
+| System | Launcher |
+|---|---|
+| macOS | **`Start-Mac.command`** |
+| Windows | **`Start-Windows.bat`** |
+
+The first run installs dependencies, which takes a few minutes. Later runs start
+in seconds and reinstall automatically after an update changes dependencies.
+Your browser opens **`http://localhost:4173`** (or the next free port). Keep the
+launcher window open while you use the app; close it to stop.
+
+**macOS blocks the file?** Right-click it and choose **Open**. If it says the file
+is not executable, run `chmod +x Start-Mac.command` once.
+**Windows SmartScreen warns?** Choose **More info → Run anyway**.
+
+Other ways to run (Pinokio, terminal, Docker) are in [Quick Start](#-quick-start).
+
+---
+
 <div align="center">
 
 **[Quick Start](#-quick-start) · [First Five Minutes](#-the-first-five-minutes) · [Talk to It](#-talk-to-it) · [What's Live](#-whats-on-the-globe) · [Under the Hood](#-under-the-hood) · [Keys & Costs](#-api-keys) · [Contributing](CONTRIBUTING.md)**

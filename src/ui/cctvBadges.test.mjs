@@ -88,7 +88,7 @@ test('calibration labels follow supplied provenance and dirty/save/reset transit
 test('localization changes badge copy while preserving machine state ids', (testContext) => {
   const { controls } = fixture(testContext);
   testContext.after(() => setLocale('en'));
-  setLocale('ru');
+  setLocale('ko');
   controls._syncCctvSourceBadge(
     { sourceKind: 'snapshot', sourceStatus: 'degraded' },
     true,

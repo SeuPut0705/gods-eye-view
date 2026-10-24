@@ -116,7 +116,7 @@ test('the refusal sentences are catalog messages', () => {
   }
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: a refused save reads in the panel language`, () => {
     setLocale(locale);
     try {

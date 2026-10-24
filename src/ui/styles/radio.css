@@ -1007,7 +1007,7 @@ html:not([lang='en'])
 }
 
 /* A translated instruction wraps under itself rather than losing its tail:
-   "Gira a la derecha hacia …" says nothing. */
+   "Turn right toward …" says nothing. */
 html:not([lang='en']) .data-row-list-lead {
   white-space: nowrap;
 }

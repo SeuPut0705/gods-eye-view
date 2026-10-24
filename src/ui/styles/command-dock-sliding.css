@@ -647,7 +647,7 @@
   white-space: nowrap;
 }
 
-/* The ru/es push-to-talk hint is longer than the tray: wrap it instead of clipping. */
+/* A translated push-to-talk hint can be longer than the tray: wrap it instead of clipping. */
 html:not([lang='en']) #gev-voice-control .gev-voice-help-detail {
   white-space: normal;
 }

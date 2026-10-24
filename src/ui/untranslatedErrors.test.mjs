@@ -29,7 +29,7 @@ function snapshot(error) {
   };
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the nearest-image refusal is built in the language and kept by the panel`, () => {
     setLocale(locale);
     try {

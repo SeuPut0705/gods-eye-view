@@ -195,9 +195,9 @@ test('transit bracket stroke centres have full pixel coverage at the failing fra
 
 test('formatKnots writes the unit in the UI language', async () => {
   const { setLocale } = await import('../i18n/index.js');
-  setLocale('ru');
+  setLocale('ko');
   try {
-    assert.equal(formatKnots(9.5), '10 уз');
+    assert.equal(formatKnots(9.5), '10 kn');
   } finally {
     setLocale('en');
   }

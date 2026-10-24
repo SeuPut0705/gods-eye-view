@@ -36,7 +36,7 @@ test('unnamed installations keep English names in data', () => {
 
 test('unnamed installation card title reads in the UI language', () => {
   try {
-    for (const locale of ['es', 'ru']) {
+    for (const locale of ['ko']) {
       setLocale(locale);
       for (const name of names) {
         const shown = installationTitle(name);
@@ -66,7 +66,7 @@ test('the Contacts line names an unnamed installation in the UI language', () =>
     setLocale('en');
     for (const name of names)
       assert.equal(formatAwarenessLabel({ id: 'osm-1', name }), name);
-    for (const locale of ['es', 'ru']) {
+    for (const locale of ['ko']) {
       setLocale(locale);
       for (const name of names)
         assert.equal(

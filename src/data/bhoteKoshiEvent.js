@@ -412,7 +412,7 @@ const IMAGERY_LABEL_NAMES = Object.freeze([
   [/^(\d{4}) POST-EVENT$/, msg('{year} POST-EVENT')],
 ]);
 
-/** Day, short month and year in the active language: 16 OCT 2021, 16 ОКТ. 2021, 2021年10月16日. */
+/** Day, short month and year in the active language: 16 OCT 2021, 2021년 10월 16일. */
 function imageryDateText(observedAt) {
   const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(observedAt || ''));
   if (!match) return '';

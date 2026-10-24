@@ -6,7 +6,7 @@ import { setLocale } from '../i18n/index.js';
 import { attachVoiceResult, planStepLabel } from './speech.js';
 import { voiceCardView } from './voiceCardPresentation.js';
 
-for (const locale of ['ru', 'es']) {
+for (const locale of ['ko']) {
   test(`voice card is in ${locale} for a layer switch`, (t) => {
     t.after(() => setLocale('en'));
     setLocale(locale);
@@ -33,7 +33,10 @@ for (const locale of ['ru', 'es']) {
       label: 'Paris',
       rangeM: 2500,
     });
-    assert.doesNotMatch(out.display.lines[0], /2\.5 km/);
+    assert.equal(
+      out.display.lines[0].replace(/\s/g, ' '),
+      '카메라 범위 2.5 km',
+    );
   });
   test(`plan label is in ${locale}`, (t) => {
     t.after(() => setLocale('en'));

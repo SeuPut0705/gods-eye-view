@@ -28,12 +28,12 @@ test('user-typed numbered titles keep their digits in en', () => {
 });
 
 test('generated numbered titles localize, typed ones with leading zeros do not', () => {
-  setLocale('ru');
+  setLocale('ko');
   assert.equal(
     displaySceneTitle({ id: 'scene-user', title: 'Scene 3' }),
-    'Сцена 3',
+    '장면 3',
   );
-  assert.equal(displayShotTitle('Shot 2'), 'Кадр 2');
+  assert.equal(displayShotTitle('Shot 2'), '샷 2');
   assert.equal(
     displaySceneTitle({ id: 'scene-user', title: 'Scene 007' }),
     'Scene 007',
@@ -42,7 +42,7 @@ test('generated numbered titles localize, typed ones with leading zeros do not',
 });
 
 test('a built-in shot title localizes only for a recipe-sourced shot', () => {
-  setLocale('ru');
+  setLocale('ko');
   // A built-in shot title (BUILTIN_SHOT_TITLES in recipes.js).
   const title = 'Final view';
   const userScene = { id: 'scene-user' };
@@ -99,7 +99,7 @@ test('the Scene status line shows an operator-typed shot title as typed', async 
   const adapter = createScenePlaybackAdapter(director, 4);
   const title = 'Final view';
   const scene = { id: 'scene-user', title: 'Scene 1', shots: [] };
-  setLocale('ru');
+  setLocale('ko');
   adapter.selectShot({
     scene,
     shot: { id: 'shot-user', title },
@@ -133,7 +133,7 @@ test('the scene context of a shot carries its display title by provenance', asyn
     );
     return states.a.params.sceneContext;
   };
-  setLocale('ru');
+  setLocale('ko');
   assert.equal(contextFor({ id: 'u', title }).shotDisplayTitle, title);
   assert.notEqual(
     contextFor({ id: 'r', title, sourcePackId: 'bhote-koshi-nepal-scene' })

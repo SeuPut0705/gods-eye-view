@@ -494,7 +494,7 @@ export function createModel({
     });
   }
 
-  /** formatLatLon for a card: "8,389° ю. ш. 44,162° з. д." in Russian. */
+  /** formatLatLon for a card, with the language's hemisphere labels. */
 
   function formatLatLonLabel(lat, lon) {
     const amount = (value) =>

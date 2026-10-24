@@ -410,7 +410,7 @@ try {
   );
   check('keyboard focus remains visible', sceneSelection.outline === 'solid');
   const localized = new URL(page.url());
-  localized.searchParams.set('lang', 'ru');
+  localized.searchParams.set('lang', 'ko');
   await page.goto(localized.href, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(
     () =>
@@ -447,7 +447,7 @@ try {
       'draw-color-select',
     ].map((id) => document.getElementById(id));
     return (
-      document.documentElement.lang === 'ru' &&
+      document.documentElement.lang === 'ko' &&
       nodes.every(
         (node) =>
           node.clientWidth > 0 &&
@@ -456,8 +456,8 @@ try {
       )
     );
   });
-  check('real Russian labels and fields fit at 390px', translated);
-  await page.screenshot({ path: 'qa-shots/form-fields/ru-390.png' });
+  check('real Korean labels and fields fit at 390px', translated);
+  await page.screenshot({ path: 'qa-shots/form-fields/ko-390.png' });
   check('no uncaught browser errors', errors.length === 0, errors);
 } finally {
   await browser.close();

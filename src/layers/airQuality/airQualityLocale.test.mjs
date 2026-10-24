@@ -46,7 +46,7 @@ const reading = {
   note: null,
 };
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the layer name is translated`, () => {
     inLocale(locale, () => {
       assert.notEqual(t('Air quality'), 'Air quality', 'catalog has the entry');
@@ -90,7 +90,7 @@ for (const locale of ['es', 'ru']) {
   });
 }
 
-for (const locale of ['en', 'es', 'ru']) {
+for (const locale of ['en', 'ko']) {
   test(`${locale}: the Weather card shows an HTTP failure as the row does`, async () => {
     const layer = harness({
       getSnapshot: async () => {

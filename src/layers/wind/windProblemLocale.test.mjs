@@ -45,7 +45,7 @@ test('en: wind source failures read as before', async () => {
   );
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: wind source failures are shown in the UI language`, async () => {
     setLocale(locale);
     try {

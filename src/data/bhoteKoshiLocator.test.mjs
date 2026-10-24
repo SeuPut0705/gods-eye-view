@@ -415,7 +415,7 @@ test('Incident Corridor reveals all fifteen overview pins and keeps layout activ
 
 test('Bhote Koshi overview pins translate their descriptive titles and keep place names', async (t) => {
   t.after(() => setLocale('en'));
-  setLocale('ru');
+  setLocale('ko');
   const viewer = viewerFixture();
   const overlayHost = overlayHostFixture();
   const layer = createBhoteKoshiLocatorLayer({
@@ -435,19 +435,19 @@ test('Bhote Koshi overview pins translate their descriptive titles and keep plac
   );
   assert.equal(
     titles.get('bhote-koshi-place-immediate-collapse-viewpoint'),
-    '01 · ВИД НА ОБРУШЕНИЕ',
+    '01 · 붕괴 관측 지점',
   );
   assert.equal(
     titles.get('bhote-koshi-place-gyirong-border-gate'),
-    '04 · ПОГРАНПЕРЕХОД',
+    '04 · 국경 관문',
   );
   assert.equal(
     titles.get('bhote-koshi-place-dandagaun-viewpoint'),
-    '11 · СМОТРОВАЯ ПЛОЩАДКА DANDAGAUN',
+    '11 · 단다가운 전망대',
   );
   assert.equal(
     titles.get('bhote-koshi-place-bidur-trishuli-bridge'),
-    '14 · МОСТ BIDUR',
+    '14 · 비두르 다리',
   );
   assert.equal(titles.get('bhote-koshi-place-timure-cluster'), '05 · TIMURE');
   await layer.destroy();

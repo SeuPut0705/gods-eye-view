@@ -13,7 +13,7 @@ function stats(state) {
   }).methods.getStats();
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: installation feedback is in the UI language`, () => {
     setLocale(locale);
     const empty = stats({ status: 'empty', lastUpdate: 1 }).statusMessage;

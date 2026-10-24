@@ -73,7 +73,7 @@ const cases = [
   ],
 ];
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: layer status texts are translated in the row`, () => {
     setLocale(locale);
     try {

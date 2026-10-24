@@ -38,7 +38,7 @@ test('the name tables list only catalog layers', () => {
   assert.deepEqual(unknown, []);
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: Local ADS-B source names translate without their own entry`, () => {
     setLocale(locale);
     try {

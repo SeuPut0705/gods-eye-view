@@ -19,7 +19,7 @@ test('Local ADS-B guidance hint is translated in the layer row', async () => {
     }),
     'RTL-SDR · WebUSB · connect a receiver in Radio',
   );
-  for (const locale of ['es', 'ru']) {
+  for (const locale of ['ko']) {
     setLocale(locale);
     for (const receiver of [
       { webUsbSupported: true, connected: false },

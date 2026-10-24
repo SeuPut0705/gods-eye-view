@@ -145,11 +145,11 @@ test('the HUD formatter translates the catalogued city, then upper-cases it', ()
     composeLocalityTag(tokyo, 35.66, 139.75, LOCALIZED_LOCALITY),
     'NEAR TOKYO TOWER (TOKYO) 2KM',
   );
-  setLocale('ru');
+  setLocale('ko');
   try {
-    assert.match(
+    assert.equal(
       composeLocalityTag(tokyo, 35.66, 139.75, LOCALIZED_LOCALITY),
-      /\(ТОКИО\)/,
+      'TOKYO TOWER (도쿄) 근처 2 km',
     );
   } finally {
     setLocale('en');

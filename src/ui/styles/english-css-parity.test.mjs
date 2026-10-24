@@ -145,7 +145,7 @@ test('the count-line class is set only outside English', async () => {
   try {
     setLocale('en');
     assert.equal(classes(), false);
-    setLocale('es');
+    setLocale('ko');
     assert.equal(classes(), true);
   } finally {
     setLocale('en');

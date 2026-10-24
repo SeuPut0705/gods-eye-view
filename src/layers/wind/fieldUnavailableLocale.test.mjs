@@ -6,7 +6,7 @@ import { setLocale, t } from '../../i18n/index.js';
 import { SCALAR_UNAVAILABLE, WIND_FIELDS } from './fields.js';
 import { fieldUnavailableText } from './rendering.js';
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: every field's unavailable status has a translation`, () => {
     setLocale(locale);
     try {

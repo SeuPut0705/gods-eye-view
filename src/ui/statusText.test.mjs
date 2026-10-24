@@ -37,7 +37,7 @@ test('en: status lines and errors show as they came', () => {
   }
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: a lone feed problem translates like a joined one`, () => {
     inLocale(locale, () => {
       const lone = translateFeedError('feed 1090 unreachable');

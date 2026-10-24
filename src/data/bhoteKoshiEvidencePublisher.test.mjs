@@ -40,7 +40,7 @@ function captureFrameText(observation) {
   return text;
 }
 
-test('evidence card source line is fully in the UI language (es, ru)', async () => {
+test('evidence card source line is fully in the UI language (ko)', async () => {
   const event = JSON.parse(await readFile(eventUrl, 'utf8'));
   const youtube = event.evidenceSpine.find(
     (o) => o.media?.publisher === 'YouTube source',
@@ -50,7 +50,7 @@ test('evidence card source line is fully in the UI language (es, ru)', async () 
   );
   assert.ok(youtube && facebook);
   try {
-    for (const locale of ['es', 'ru']) {
+    for (const locale of ['ko']) {
       setLocale(locale);
       for (const observation of [youtube, facebook]) {
         const lines = captureFrameText(observation);

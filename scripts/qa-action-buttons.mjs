@@ -301,7 +301,7 @@ try {
     await page.evaluate(() => window.__qaButtonCalls.length === 0),
   );
   const localized = new URL(page.url());
-  localized.searchParams.set('lang', 'ru');
+  localized.searchParams.set('lang', 'ko');
   await page.goto(localized.href, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(
     () =>
@@ -319,13 +319,13 @@ try {
     const translated = await page.$eval(`#${panel}`, (root) => {
       const buttons = [...root.querySelectorAll('.gev-action-button')];
       return (
-        document.documentElement.lang === 'ru' &&
+        document.documentElement.lang === 'ko' &&
         buttons.length > 0 &&
         buttons.every((node) => node.scrollWidth <= node.clientWidth)
       );
     });
-    check(`Russian ${panel} action labels fit at 390px`, translated);
-    await page.screenshot({ path: `${shots}/${panel}-ru-390.png` });
+    check(`Korean ${panel} action labels fit at 390px`, translated);
+    await page.screenshot({ path: `${shots}/${panel}-ko-390.png` });
   }
   check('no uncaught browser errors', errors.length === 0, errors);
 } finally {

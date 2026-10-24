@@ -24,7 +24,7 @@ const check = (name, passed, detail) => {
 const out = 'qa-shots/status-badges';
 fs.mkdirSync(out, { recursive: true });
 try {
-  for (const lang of ['en', 'ru']) {
+  for (const lang of ['en', 'ko']) {
     await page.setViewport({ width: 1440, height: 900 });
     await page.goto(
       `${process.env.QA_BASE_URL || 'http://127.0.0.1:4189'}/?welcome=0&lang=${lang}`,

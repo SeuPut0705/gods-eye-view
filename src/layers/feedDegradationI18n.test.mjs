@@ -6,8 +6,8 @@ import { setLocale, translateKnown } from '../i18n/index.js';
 import { deriveAisFeedError } from '../data/aisLiveVessels.js';
 import { createModel } from './traffic/model.js';
 
-test('AIS degraded-feed reasons are localized in es', () => {
-  setLocale('es');
+test('AIS degraded-feed reasons are localized in ko', () => {
+  setLocale('ko');
   try {
     const cases = [
       [
@@ -33,8 +33,8 @@ test('AIS degraded-feed reasons are localized in es', () => {
   }
 });
 
-test('traffic "SIMULATED — <reason>" is localized in es', () => {
-  setLocale('es');
+test('traffic "SIMULATED — <reason>" is localized in ko', () => {
+  setLocale('ko');
   try {
     const { trafficFeedPresentation } = createModel({
       state: {},

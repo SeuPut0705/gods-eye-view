@@ -8,32 +8,24 @@ export const LOCALE_STORAGE_KEY = 'gev:locale:v1';
 export const DEFAULT_LOCALE = 'en';
 
 /** Shipped locales; order does not matter. Adding one: docs/TRANSLATORS.md. */
-export const LOCALES = Object.freeze(['en', 'es', 'ru', 'zh-CN']);
+export const LOCALES = Object.freeze(['en', 'ko']);
 
 /** Each locale named in its own language, for the selector. */
 export const LOCALE_NAMES = Object.freeze({
   en: 'English',
-  es: 'Español',
-  ru: 'Русский',
-  'zh-CN': '简体中文',
+  ko: '한국어',
 });
 
 /** Right-to-left locales. */
 const RTL_LOCALES = Object.freeze([]);
 
 /**
- * Map any language tag to a shipped locale: 'ru-RU' and 'RU' → 'ru',
- * 'zh', 'zh-CN' and 'zh-Hans-SG' → 'zh-CN'.
+ * Map any language tag to a shipped locale: 'ko-KR' and 'KO' → 'ko'.
  * @returns {string|null}
  */
 export function normalizeLocale(candidate) {
   if (typeof candidate !== 'string') return null;
-  const [primary, ...rest] = candidate.trim().toLowerCase().split(/[-_]/);
-  // Traditional Chinese readers are not given Simplified: no zh-TW yet.
-  if (primary === 'zh')
-    return rest.some((part) => ['hant', 'tw', 'hk', 'mo'].includes(part))
-      ? null
-      : 'zh-CN';
+  const [primary] = candidate.trim().toLowerCase().split(/[-_]/);
   return LOCALES.includes(primary) ? primary : null;
 }
 

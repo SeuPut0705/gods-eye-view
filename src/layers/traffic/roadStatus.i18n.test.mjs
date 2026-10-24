@@ -39,7 +39,7 @@ test('en: road status notes keep their English wording', () => {
   );
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: road status notes are in the UI language`, () => {
     setLocale(locale);
     try {
@@ -100,8 +100,7 @@ test('en: road-source chips keep their English labels and titles', () => {
 });
 
 for (const [locale, hybrid] of [
-  ['ru', 'Гибрид'],
-  ['es', 'Híbrido'],
+  ['ko', '하이브리드'],
 ]) {
   test(`${locale}: the Hybrid chip and every chip title are translated`, () => {
     setLocale(locale);

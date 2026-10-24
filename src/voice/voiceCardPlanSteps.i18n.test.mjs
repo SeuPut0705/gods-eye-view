@@ -44,51 +44,40 @@ test('every tool has a plan label, never its raw name', () => {
   assert.equal(planStepLabel('brand_new_tool', {}), 'brand new tool');
 });
 
-for (const locale of ['ru', 'es']) {
-  test(`${locale} plan labels are all translated`, () => {
-    const english = Object.fromEntries(
-      TOOLS.map((name) => [name, planStepLabel(name, { direction: 'out' })]),
-    );
-    inLocale(locale, () => {
-      for (const name of TOOLS) {
-        // A layer switch without a layer is checked below.
-        const label = planStepLabel(name, { direction: 'out' });
-        assert.notEqual(label, english[name], `${name}: "${label}"`);
-      }
-    });
-  });
-}
-
-test('analyst query and an unknown tool in ru and es', () => {
-  inLocale('ru', () => {
-    assert.equal(planStepLabel('analyst_query', {}), 'Аналитический запрос');
-    assert.equal(planStepLabel('brand_new_tool', {}), 'Действие');
-  });
-  inLocale('es', () => {
-    assert.equal(planStepLabel('analyst_query', {}), 'Consulta analítica');
-    assert.equal(planStepLabel('brand_new_tool', {}), 'Acción');
+test('ko plan labels are all translated', () => {
+  const english = Object.fromEntries(
+    TOOLS.map((name) => [name, planStepLabel(name, { direction: 'out' })]),
+  );
+  inLocale('ko', () => {
+    for (const name of TOOLS) {
+      const label = planStepLabel(name, { direction: 'out' });
+      assert.notEqual(label, english[name], `${name}: "${label}"`);
+    }
   });
 });
 
-test('a layer step with no layer agrees with "Capa"', () => {
+test('analyst query and an unknown tool in ko', () => {
+  inLocale('ko', () => {
+    assert.equal(planStepLabel('analyst_query', {}), '분석가 질의');
+    assert.equal(planStepLabel('brand_new_tool', {}), '동작');
+  });
+});
+
+test('a layer step with no layer reads in Korean', () => {
   const step = (enabled) => planStepLabel('set_layer_visibility', { enabled });
   assert.equal(step(true), 'Layer on');
   assert.equal(step(false), 'Layer off');
-  inLocale('es', () => {
-    assert.equal(step(true), 'Capa: activada');
-    assert.equal(step(false), 'Capa: desactivada');
+  inLocale('ko', () => {
+    assert.equal(step(true), '레이어 켜기');
+    assert.equal(step(false), '레이어 끄기');
     // A named layer keeps the shared "{label} on" wording.
     assert.match(
       planStepLabel('set_layer_visibility', {
         layerId: 'earthquakes',
         enabled: true,
       }),
-      /: activado$/,
+      / 켜짐$/,
     );
-  });
-  inLocale('ru', () => {
-    assert.equal(step(true), 'Слой: вкл.');
-    assert.equal(step(false), 'Слой: выкл.');
   });
 });
 
@@ -121,12 +110,8 @@ test('an error line shows whole, in every language', () => {
   for (const [locale, expected] of [
     ['en', NO_PLACE.error],
     [
-      'ru',
-      'Для выбора ближайшего самолёта нужен пресет, название места или широта и долгота',
-    ],
-    [
-      'es',
-      'Para seleccionar la aeronave más cercana se necesita un preajuste, un nombre de lugar o la latitud y la longitud',
+      'ko',
+      '가장 가까운 항공기 선택에는 프리셋, 장소 이름 또는 위도와 경도가 필요합니다',
     ],
   ]) {
     const view = inLocale(locale, () =>
@@ -146,16 +131,19 @@ test('a successful line keeps its 80-character cap', () => {
 });
 
 test('a translated analyst headline fits the card title whole', () => {
+  // Longer than the English 64-character title cap, within the translated cap.
   const title =
-    'Al menos 12 aeronaves militares en un radio de 40 km de Los Angeles';
+    '최소 군용기 12대 로스앤젤레스에서 40 km 이내이며 이 범위에는 주변 지역 전체와 비행 중인 항공기, 그리고 가장 최근에 갱신된 분석 결과 요약 문장이 모두 포함됩니다';
+  assert.ok(title.length > 64 && title.length <= 120, String(title.length));
   const card = () =>
     voiceCardView({
       ...initialVoiceCardState(),
       result: { display: { title, lines: [] } },
     }).result.title;
-  assert.equal(inLocale('es', card), title);
+  assert.equal(inLocale('ko', card), title);
   // English keeps its 64-character title, equal to the spoken headline.
-  assert.equal(card().length, 64);
+  const english = card();
+  assert.ok(english.length <= 64 && english.endsWith('…'), english);
 });
 
 test('the snapshot time reads as a UTC clock, dated when not today', () => {
@@ -163,13 +151,12 @@ test('the snapshot time reads as a UTC clock, dated when not today', () => {
   const sameDay = Date.parse('2026-10-15T23:00:00Z');
   const nextDay = Date.parse('2026-10-16T00:10:00Z');
   assert.equal(shownSnapshotTime(iso, sameDay), iso, 'English keeps ISO');
-  inLocale('ru', () => {
+  inLocale('ko', () => {
     assert.equal(shownSnapshotTime(iso, sameDay), '14:32:05 UTC');
-    assert.equal(shownSnapshotTime(iso, nextDay), '15.10.2026, 14:32:05 UTC');
-  });
-  inLocale('es', () => {
-    assert.equal(shownSnapshotTime(iso, sameDay), '14:32:05 UTC');
-    assert.equal(shownSnapshotTime(iso, nextDay), '15/10/2026, 14:32:05 UTC');
+    assert.equal(
+      shownSnapshotTime(iso, nextDay),
+      '2026. 10. 15., 14:32:05 UTC',
+    );
     assert.equal(shownSnapshotTime('not a time'), 'not a time');
   });
 });
@@ -188,10 +175,10 @@ test('the Contacts note shows the clock; the model note stays ISO', () => {
     coverage: { note },
     items: [],
   };
-  const notes = inLocale('es', () =>
+  const notes = inLocale('ko', () =>
     presentResult('analyst_query', result).display.notes.join(' | '),
   );
-  assert.match(notes, /\(14:32:05 UTC\)/);
+  assert.match(notes, /14:32:05 UTC 기준/);
   assert.doesNotMatch(notes, /T14:32/);
   assert.equal(result.coverage.note, note, 'the result is not changed');
 });
@@ -210,17 +197,14 @@ test('plan steps and errors name a preset place in the UI language', () => {
     planStepLabel('fly_to_location', { query: 'Tokyo' }),
     'Fly to Tokyo',
   );
-  inLocale('es', () => {
-    assert.match(planStepLabel('fly_to_location', { query: 'Tokyo' }), /Tokio/);
+  inLocale('ko', () => {
+    assert.match(planStepLabel('fly_to_location', { query: 'Tokyo' }), /도쿄/);
     assert.match(
       planStepLabel('select_nearest_aircraft', { locationId: 'tokyo' }),
-      /Tokio/,
+      /도쿄/,
     );
     const view = cardAfter('select_nearest_aircraft', failed);
-    assert.match(view.result.lines[0], /Tokio/);
-  });
-  inLocale('ru', () => {
-    assert.match(planStepLabel('fly_to_location', { query: 'Tokyo' }), /Токио/);
+    assert.match(view.result.lines[0], /도쿄/);
   });
   assert.match(failed.error, /Tokyo view/, 'the result stays English');
 });
@@ -236,10 +220,10 @@ test('the analyst scope names Los Angeles in the UI language', () => {
     items: [],
   };
   const title = inLocale(
-    'es',
+    'ko',
     () => presentResult('analyst_query', result).display.title,
   );
-  assert.match(title, /Los Ángeles$/, 'the headline is not cut at 64');
+  assert.equal(title, '최소 군용기 12대 로스앤젤레스에서 40 km 이내');
   assert.equal(result.scopeLabel, 'within 40 km of Los Angeles');
 });
 
@@ -257,14 +241,16 @@ test('a preset city id names the city in plan steps and narration', () => {
     'Fly to Ulaanbaatar',
     'other places are shown as given',
   );
-  inLocale('es', () => {
-    assert.equal(step('tokyo'), 'Volar a Tokio');
-    assert.equal(step('nyc'), 'Volar a Nueva York');
+  inLocale('ko', () => {
+    assert.equal(step('tokyo'), '도쿄(으)로 이동');
+    assert.equal(step('nyc'), '뉴욕(으)로 이동');
+    assert.equal(step('sf'), '샌프란시스코(으)로 이동');
     for (const id of ['sf', 'nyc', 'dc'])
       assert.doesNotMatch(step(id), /\b(Sf|Nyc|Dc)$/, id);
-  });
-  inLocale('ru', () => {
-    assert.match(step('dc', 'select_nearest_aircraft'), /Вашингтон/);
+    assert.equal(
+      step('dc', 'select_nearest_aircraft'),
+      '워싱턴 DC 인근 가장 가까운 항공기',
+    );
   });
 });
 

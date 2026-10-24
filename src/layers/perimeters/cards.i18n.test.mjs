@@ -39,7 +39,7 @@ test('en: the fire card keeps its English wording', () => {
   assert.equal(card.accessibilityLabel, 'Open FIRE · Lake on InciWeb');
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: selected fire card follows the UI language`, () => {
     setLocale(locale);
     try {
@@ -54,9 +54,9 @@ for (const locale of ['es', 'ru']) {
       const text = [card.title, ...card.details, card.accessibilityLabel].join(
         ' | ',
       );
+      // The "ac" unit stays as written, like km (docs/translations/ko.md).
       for (const english of [
         'FIRE',
-        ' ac ',
         'contained',
         'discovered',
         'updated',
@@ -72,10 +72,8 @@ for (const locale of ['es', 'ru']) {
           !text.includes(english),
           `${locale}: English "${english}" in ${text}`,
         );
-      assert.ok(
-        !text.includes('1,200'),
-        `${locale}: en-US grouping in ${text}`,
-      );
+      // Korean groups digits like en-US, so the numbers read the same.
+      assert.ok(text.includes('1,200'), `${locale}: acres in ${text}`);
     } finally {
       setLocale('en');
     }
@@ -85,16 +83,10 @@ for (const locale of ['es', 'ru']) {
 // Known WFIGS values, the cost and the unnamed title follow the
 // UI language; the row keeps the feed's English for the AI tools.
 const expected = {
-  es: {
-    situation: 'causa: humana · actividad moderada · incidente de tipo 3',
-    cost: '4,2 M$ hasta la fecha',
-    unnamed: 'INCENDIO · Sin nombre',
-  },
-  ru: {
-    situation:
-      'причина: деятельность человека · умеренная активность · инцидент 3-го типа',
-    cost: '4,2 млн $ на сегодня',
-    unnamed: 'ПОЖАР · Без названия',
+  ko: {
+    situation: '원인: 인위적 · 보통 활동 · 유형 3 사고',
+    cost: '현재까지 $4.2M',
+    unnamed: '화재 · 이름 없는 사고',
   },
 };
 
@@ -120,7 +112,7 @@ for (const [locale, want] of Object.entries(expected)) {
 }
 
 test('unknown WFIGS values are shown as sent', () => {
-  setLocale('ru');
+  setLocale('ko');
   try {
     const card = buildIncidentCard(
       {
@@ -133,7 +125,7 @@ test('unknown WFIGS values are shown as sent', () => {
     );
     assert.equal(
       card.details[2],
-      'причина: Investigated · Smoldering · Complex Incident',
+      '원인: Investigated · Smoldering · Complex Incident',
     );
   } finally {
     setLocale('en');

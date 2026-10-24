@@ -33,18 +33,18 @@ test('the copied link does not carry the sender ?lang override', async () => {
   installClipboard(async (url) => {
     copied = url;
   });
-  const manager = makeManager('https://gev.example/?lang=ru#v=2&lat=10&lon=20');
+  const manager = makeManager('https://gev.example/?lang=ko#v=2&lat=10&lon=20');
   assert.equal(await manager.copyLink({ nowMs: 1_000_000 }), true);
   const link = new URL(copied);
   assert.equal(link.searchParams.get('lang'), null, `copied link: ${copied}`);
 
-  const store = new Map([['gev:locale:v1', 'es']]);
+  const store = new Map([['gev:locale:v1', 'en']]);
   const recipient = resolveLocale({
     location: { search: link.search },
     storage: { getItem: (k) => store.get(k) ?? null },
-    languages: ['en-US'],
+    languages: ['ko-KR'],
   });
-  assert.equal(recipient, 'es');
+  assert.equal(recipient, 'en');
 });
 
 test('with storage blocked the language picker keeps the choice in ?lang', () => {
@@ -68,7 +68,7 @@ test('with storage blocked the language picker keeps the choice in ?lang', () =>
       throw new Error('blocked');
     },
   };
-  persistLocaleAndReload('ru', { location, history, storage: blocked });
+  persistLocaleAndReload('ko', { location, history, storage: blocked });
   // Storage blocked: the choice survives only in ?lang.
-  assert.equal(new URL(href).searchParams.get('lang'), 'ru');
+  assert.equal(new URL(href).searchParams.get('lang'), 'ko');
 });

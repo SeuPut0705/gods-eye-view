@@ -32,7 +32,7 @@ async function failedLayer(message) {
   return layer;
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the GNSS source failure is translated on the card`, async (t) => {
     t.mock.timers.enable({ apis: ['setTimeout', 'setInterval'] });
     for (const message of [

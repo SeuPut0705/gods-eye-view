@@ -46,33 +46,34 @@ test('en: the notices for every policy and outcome', () => {
   );
 });
 
-test('ru: the restore notices do not glue the nominative label into a genitive slot', () => {
-  setLocale('ru');
-  for (const policy of [flights, military, satellites]) {
-    for (const classification of [
-      'expired',
-      'source-unavailable',
-      'unavailable',
-    ]) {
-      const message = shareTrackingRestoreNotice({ ...policy, classification });
-      // "Срок отслеживания" takes the genitive: рейса / спутника, never the
-      // nominative label as stored in the policy.
-      assert.doesNotMatch(
-        message,
-        /отслеживания (военный )?(рейс|спутник) /,
-        message,
-      );
+test('ko: every policy and outcome reads as a ready-made Korean sentence', () => {
+  setLocale('ko');
+  const expected = {
+    flights: {
+      expired: '공유된 항공편 추적이 만료되었습니다',
+      'source-unavailable': '공유된 항공편을 복원할 수 없습니다 — 피드 사용 불가',
+      unavailable: '공유된 항공편을 사용할 수 없습니다',
+    },
+    military: {
+      expired: '공유된 군용기 추적이 만료되었습니다',
+      'source-unavailable': '공유된 군용기를 복원할 수 없습니다 — 피드 사용 불가',
+      unavailable: '공유된 군용기를 사용할 수 없습니다',
+    },
+    satellites: {
+      expired: '공유된 위성 추적이 만료되었습니다',
+      'source-unavailable': '공유된 위성을 복원할 수 없습니다 — 피드 사용 불가',
+      unavailable: '공유된 위성을 사용할 수 없습니다',
+    },
+  };
+  const policies = { flights, military, satellites };
+  for (const [name, byClassification] of Object.entries(expected)) {
+    for (const [classification, text] of Object.entries(byClassification)) {
+      const message = shareTrackingRestoreNotice({
+        ...policies[name],
+        classification,
+      });
+      assert.equal(message, text);
       assert.doesNotMatch(message, /Shared|\{subject\}/, message);
     }
   }
-});
-
-test('es: the restore notices read with an article before the subject', () => {
-  setLocale('es');
-  const message = shareTrackingRestoreNotice({
-    ...flights,
-    classification: 'expired',
-  });
-  assert.doesNotMatch(message, /seguimiento de vuelo/, message);
-  assert.doesNotMatch(message, /Shared/, message);
 });

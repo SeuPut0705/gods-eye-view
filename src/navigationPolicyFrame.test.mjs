@@ -32,11 +32,11 @@ function cockpitToast(noun) {
   return log[0];
 }
 
-test('es: the Cockpit refusal for frame_overhead has no English id', () => {
-  setLocale('es');
+test('ko: the Cockpit refusal for frame_overhead has no English id', () => {
+  setLocale('ko');
   const shown = cockpitToast('frame');
   assert.doesNotMatch(shown, /\bframe\b/, shown);
-  assert.equal(shown, 'Sal de la cabina para encuadrar contactos');
+  assert.equal(shown, '조종석을 종료하면 표적을 화면에 담습니다');
 });
 
 test('en: the voice nouns read as English sentences', () => {

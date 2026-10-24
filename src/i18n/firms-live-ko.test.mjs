@@ -5,12 +5,12 @@ import { createModel } from '../layers/firms/model.js';
 import { createQueries } from '../layers/firms/queries.js';
 
 const cases = [
-  [0, '不到 1 分钟前', '<1m ago'],
-  [120000, '2 分钟前', '2m ago'],
-  [7200000, '2 小时前', '2h ago'],
+  [0, '<1분 전', '<1m ago'],
+  [120000, '2분 전', '2m ago'],
+  [7200000, '2시간 전', '2h ago'],
 ];
 
-for (const [age, zh, en] of cases) {
+for (const [age, ko, en] of cases) {
   test(`FIRMS live age ${age} ms has one relative-time suffix`, (context) => {
     const now = 1800000000000;
     context.mock.method(Date, 'now', () => now);
@@ -34,8 +34,8 @@ for (const [age, zh, en] of cases) {
     try {
       setLocale('en');
       assert.equal(methods.getStats().loadingLabel, `LIVE · updated ${en}`);
-      setLocale('zh-CN');
-      assert.equal(methods.getStats().loadingLabel, `实时 · 更新于 ${zh}`);
+      setLocale('ko');
+      assert.equal(methods.getStats().loadingLabel, `실시간 · ${ko} 업데이트`);
     } finally {
       setLocale(previousLocale);
     }

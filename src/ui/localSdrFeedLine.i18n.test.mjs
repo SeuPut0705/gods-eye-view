@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { setLocale } from '../i18n/index.js';
 import { localSdrFeedLine } from './localSdrPresentation.js';
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`decoder feed line is translated in ${locale}`, () => {
     setLocale(locale);
     try {
@@ -37,10 +37,10 @@ test('an unknown feed status is shown as given', () => {
   );
 });
 
-// A feed status agrees with "fuente" in Spanish; the shared "invalid" key
-// (any other masculine noun) is left alone.
-test('es: an invalid decoder feed reads "no válida"', () => {
-  setLocale('es');
+// The shared "invalid" key is looked up with the "feed status" context, so a
+// feed shows its own wording.
+test('ko: an invalid decoder feed reads "유효하지 않음"', () => {
+  setLocale('ko');
   try {
     const line = localSdrFeedLine({
       configured: true,
@@ -50,8 +50,8 @@ test('es: an invalid decoder feed reads "no válida"', () => {
         { band: '1090', status: 'invalid' },
       ],
     });
-    assert.match(line, /no válida/);
-    assert.doesNotMatch(line, /no válido\b/);
+    assert.match(line, /1090 #2 유효하지 않음/);
+    assert.doesNotMatch(line, /\binvalid\b/);
   } finally {
     setLocale('en');
   }

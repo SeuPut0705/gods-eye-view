@@ -26,10 +26,11 @@ test('string entry left in English is reported (control)', () => {
   assert.match(errors[0], /is still English/);
 });
 
+// Locale codes here exercise the checker's plural categories; only ko ships.
 for (const [locale, entry] of [
   ['de', { one: '{count} camera', other: '{count} cameras' }],
   ['ja', { other: '{count} cameras' }],
-  ['zh-CN', { other: '{count} cameras' }],
+  ['ko', { other: '{count} cameras' }],
   [
     'es',
     {
@@ -65,7 +66,7 @@ for (const [locale, entry] of [
 // The `--missing` template, pasted without edits, must fail entry by entry,
 // and its plural entries carry every form the language needs.
 const messages = extractMessages();
-for (const locale of ['de', 'ja', 'es', 'ru']) {
+for (const locale of ['de', 'ja', 'ko', 'es', 'ru']) {
   test(`${locale}: an untouched --missing template fails the check entry by entry`, () => {
     const template = missingTemplate(locale, {}, messages);
     assert.equal(Object.keys(template).length, messages.size);

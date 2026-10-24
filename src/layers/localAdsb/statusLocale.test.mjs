@@ -38,7 +38,7 @@ function inLocale(locale, run) {
   }
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the streaming Local ADS-B row is translated`, () => {
     inLocale(locale, () => {
       const row = rowFor(

@@ -27,30 +27,23 @@ const NAMES = {
   uk: 'Українська',
   ja: '日本語',
 };
+// A synthetic nine-language list: the picker's search, threshold and
+// type-ahead logic must work for a list longer than the two shipped locales.
 const MANY = Object.keys(NAMES);
 
 const codes = (rows) => rows.map((row) => row.code);
 
 test('the current language comes first, the rest by their own names', () => {
+  assert.deepEqual(LOCALES, ['en', 'ko'], 'two entries in the picker');
   assert.deepEqual(
     codes(
       buildLocaleOptions({
         locales: LOCALES,
-        current: 'ru',
+        current: 'ko',
         nativeNames: LOCALE_NAMES,
       }),
     ),
-    ['ru', 'en', 'es', 'zh-CN'],
-  );
-  assert.deepEqual(
-    codes(
-      buildLocaleOptions({
-        locales: LOCALES,
-        current: 'es',
-        nativeNames: LOCALE_NAMES,
-      }),
-    ),
-    ['es', 'en', 'ru', 'zh-CN'],
+    ['ko', 'en'],
   );
   assert.deepEqual(
     codes(
@@ -60,7 +53,7 @@ test('the current language comes first, the rest by their own names', () => {
         nativeNames: LOCALE_NAMES,
       }),
     ),
-    ['en', 'es', 'ru', 'zh-CN'],
+    ['en', 'ko'],
   );
   const rows = buildLocaleOptions({
     locales: MANY,
@@ -85,24 +78,23 @@ test('the current language comes first, the rest by their own names', () => {
 });
 
 test('each row gets the interface-language name for search, unless it only repeats the native one', () => {
-  const local = createLocalNameReader('ru');
+  const local = createLocalNameReader('ko');
   const rows = buildLocaleOptions({
     locales: LOCALES,
-    current: 'ru',
+    current: 'ko',
     nativeNames: LOCALE_NAMES,
     localName: local,
   });
   const byCode = Object.fromEntries(rows.map((row) => [row.code, row]));
-  assert.equal(byCode.en.localName, 'английский');
-  assert.equal(byCode.es.localName, 'испанский');
-  assert.equal(byCode.ru.localName, '', 'русский only repeats Русский');
+  assert.equal(byCode.en.localName, '영어');
+  assert.equal(byCode.ko.localName, '', '한국어 only repeats 한국어');
   const english = buildLocaleOptions({
     locales: LOCALES,
     current: 'en',
     nativeNames: LOCALE_NAMES,
     localName: createLocalNameReader('en'),
   });
-  assert.equal(english.find((row) => row.code === 'es').localName, 'Spanish');
+  assert.equal(english.find((row) => row.code === 'ko').localName, 'Korean');
 });
 
 test('without Intl.DisplayNames the interface-language name is simply left out', () => {
@@ -188,19 +180,19 @@ test('the search field appears only above the threshold', () => {
 test('choosing the current language changes nothing; another asks, then switches', () => {
   const calls = [];
   const actions = (answer) => ({
-    current: 'ru',
+    current: 'ko',
     confirmSwitch: () => {
       calls.push('confirm');
       return answer;
     },
     switchLocale: (locale) => calls.push(`switch:${locale}`),
   });
-  assert.equal(applyLocaleChoice('ru', actions(true)), 'unchanged');
+  assert.equal(applyLocaleChoice('ko', actions(true)), 'unchanged');
   assert.deepEqual(calls, [], 'no prompt, no reload');
-  assert.equal(applyLocaleChoice('es', actions(false)), 'declined');
+  assert.equal(applyLocaleChoice('en', actions(false)), 'declined');
   assert.deepEqual(calls, ['confirm']);
-  assert.equal(applyLocaleChoice('es', actions(true)), 'switched');
-  assert.deepEqual(calls, ['confirm', 'confirm', 'switch:es']);
+  assert.equal(applyLocaleChoice('en', actions(true)), 'switched');
+  assert.deepEqual(calls, ['confirm', 'confirm', 'switch:en']);
 });
 
 test('navigation keys move without wrapping', () => {
@@ -250,8 +242,8 @@ test('type-ahead cycles by first letter and refines with more letters', () => {
 
 test('keyboard model: open on the current language, move, choose, close', () => {
   const model = createLocalePickerModel({
-    current: 'ru',
-    localName: createLocalNameReader('ru'),
+    current: 'ko',
+    localName: createLocalNameReader('ko'),
   });
   assert.deepEqual(
     model.keydown({ key: 'ArrowDown' }),
@@ -259,18 +251,21 @@ test('keyboard model: open on the current language, move, choose, close', () => 
     'closed: ignored',
   );
   model.openList();
-  assert.equal(model.activeOption.code, 'ru');
+  assert.equal(model.activeOption.code, 'ko');
   assert.deepEqual(model.keydown({ key: 'ArrowDown' }), { handled: true });
   assert.equal(model.activeOption.code, 'en');
-  model.keydown({ key: 'End' });
-  assert.equal(model.activeOption.code, 'zh-CN');
+  model.keydown({ key: 'ArrowDown' });
+  assert.equal(model.activeOption.code, 'en', 'no wrap at the bottom');
   model.keydown({ key: 'Home' });
-  assert.equal(model.activeOption.code, 'ru');
+  assert.equal(model.activeOption.code, 'ko');
+  model.keydown({ key: 'End' });
+  assert.equal(model.activeOption.code, 'en');
+  model.keydown({ key: 'Home' });
   model.keydown({ key: 'ArrowUp' });
-  assert.equal(model.activeOption.code, 'ru', 'no wrap at the top');
+  assert.equal(model.activeOption.code, 'ko', 'no wrap at the top');
   assert.deepEqual(model.keydown({ key: 'Enter' }), {
     handled: true,
-    choose: 'ru',
+    choose: 'ko',
   });
   model.keydown({ key: 'ArrowDown' });
   assert.deepEqual(model.keydown({ key: ' ' }), {
@@ -292,22 +287,26 @@ test('keyboard model: open on the current language, move, choose, close', () => 
 
 test('keyboard model: type-ahead resets after a pause and ignores shortcuts', () => {
   let clock = 0;
-  const model = createLocalePickerModel({ current: 'en', now: () => clock });
+  const model = createLocalePickerModel({
+    current: 'en',
+    localName: createLocalNameReader('en'),
+    now: () => clock,
+  });
   model.openList();
-  assert.deepEqual(model.keydown({ key: 'e' }), { handled: true });
-  assert.equal(model.activeOption.code, 'es');
+  assert.deepEqual(model.keydown({ key: 'k' }), { handled: true });
+  assert.equal(model.activeOption.code, 'ko', 'K finds Korean by its name');
   clock += 100;
-  model.keydown({ key: 's' });
-  assert.equal(model.activeOption.code, 'es', '"es" keeps Español');
+  model.keydown({ key: 'o' });
+  assert.equal(model.activeOption.code, 'ko', '"ko" keeps Korean');
   clock += TYPEAHEAD_RESET_MS + 1;
-  model.keydown({ key: 'Р' });
-  assert.equal(model.activeOption.code, 'ru');
+  model.keydown({ key: 'e' });
+  assert.equal(model.activeOption.code, 'en');
   assert.deepEqual(
     model.keydown({ key: 'z' }),
     { handled: true },
     'an unmatched letter is still the list’s, not a global hotkey',
   );
-  assert.equal(model.activeOption.code, 'ru');
+  assert.equal(model.activeOption.code, 'en');
   assert.deepEqual(model.keydown({ key: 'c', metaKey: true }), {
     handled: false,
   });

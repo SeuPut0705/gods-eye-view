@@ -70,12 +70,6 @@
   margin-bottom: 0;
 }
 
-/* Spanish labels overflow the nowrap .scene-btn row of the fixed-width
-   panel; wrap the row under es only, English stays as is. */
-html[lang='es'] .cctv-controls {
-  flex-wrap: wrap;
-}
-
 /* A label longer than its button wraps inside it, not past the panel edge. */
 html:not([lang='en']) .cctv-controls .scene-btn {
   white-space: normal;

@@ -6,7 +6,7 @@ import { setLocale } from '../i18n/index.js';
 import { RealtimeCost } from './realtimeCost.js';
 import { createVoiceCostTracker } from './voiceCost.js';
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`API-key cost tooltip for an incomplete session has no English (${locale})`, () => {
     setLocale(locale);
     try {

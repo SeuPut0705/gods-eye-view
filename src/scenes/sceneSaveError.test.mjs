@@ -83,7 +83,7 @@ test('any other validation failure: English keeps the field, a translation never
     sceneSaveFailureReason(null),
     'the scene data failed validation',
   );
-  for (const locale of ['ru', 'es']) {
+  for (const locale of ['ko']) {
     setLocale(locale);
     try {
       for (const error of [...errors, null]) {

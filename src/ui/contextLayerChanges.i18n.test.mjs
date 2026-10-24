@@ -69,7 +69,7 @@ test('en: the toast shows the reason unchanged', () => {
   );
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the Space Missions block toast is localized with the layer name`, () => {
     setLocale(locale);
     const reason = contextLayerEnableBlockReason({

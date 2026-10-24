@@ -49,7 +49,7 @@ test('en: feed failure texts stay English', () => {
     );
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: feed failure texts are translated in the layer row`, () => {
     setLocale(locale);
     try {

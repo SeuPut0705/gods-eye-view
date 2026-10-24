@@ -26,23 +26,17 @@ const NEAREST = {
 
 test('the fly-to headline shows the city in the interface language', () => {
   assert.equal(SPEECH_BUILDERS.fly_to_location(FLY).display.title, 'Tokyo');
-  const ru = inLocale('ru', () => SPEECH_BUILDERS.fly_to_location(FLY));
-  assert.equal(ru.display.title, 'Токио');
-  assert.match(ru.say, /Tokyo/);
-  const es = inLocale('es', () => SPEECH_BUILDERS.fly_to_location(FLY));
-  assert.equal(es.display.title, 'Tokio');
+  const ko = inLocale('ko', () => SPEECH_BUILDERS.fly_to_location(FLY));
+  assert.equal(ko.display.title, '도쿄');
+  assert.match(ko.say, /Tokyo/);
 });
 
 test('the nearest-aircraft distance line shows the city in the interface language', () => {
   const en = SPEECH_BUILDERS.select_nearest_aircraft(NEAREST);
   assert.match(en.display.lines[0], /from Tokyo$/);
-  const ru = inLocale('ru', () =>
+  const ko = inLocale('ko', () =>
     SPEECH_BUILDERS.select_nearest_aircraft(NEAREST),
   );
-  assert.match(ru.display.lines[0], /Токио/);
-  assert.match(ru.say, /Tokyo/);
-  const es = inLocale('es', () =>
-    SPEECH_BUILDERS.select_nearest_aircraft(NEAREST),
-  );
-  assert.match(es.display.lines[0], /Tokio/);
+  assert.match(ko.display.lines[0], /도쿄/);
+  assert.match(ko.say, /Tokyo/);
 });

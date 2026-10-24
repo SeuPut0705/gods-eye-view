@@ -1,6 +1,6 @@
 # Translating God's Eye View
 
-Shipped languages: **English** (source and fallback), **Spanish** (`es`), **Russian** (`ru`) and **Simplified Chinese** (`zh-CN`).
+Shipped languages: **English** (source and fallback) and **Korean** (`ko`).
 
 ## How it works
 
@@ -10,12 +10,9 @@ Every other language is one flat JSON file, `src/i18n/locales/<code>.json`, keye
 
 ```json
 {
-  "Save keys": "Сохранить ключи",
+  "Save keys": "키 저장",
   "{count} cameras": {
-    "one": "{count} камера",
-    "few": "{count} камеры",
-    "many": "{count} камер",
-    "other": "{count} камеры"
+    "other": "카메라 {count}대"
   }
 }
 ```
@@ -28,7 +25,7 @@ The page picks its language from `?lang=`, then the choice stored by the languag
 
 ```sh
 npm run i18n                      # what is missing, unused or broken, per language
-npm run i18n -- --missing ru      # missing ru entries as JSON, ready to translate
+npm run i18n -- --missing ko      # missing ko entries as JSON, ready to translate
 npm run i18n -- --prune           # drop entries the code no longer uses
 ```
 
@@ -45,14 +42,14 @@ Edit `src/i18n/locales/<code>.json` and run `npm run i18n`. To see your change, 
 1. Create `src/i18n/locales/<code>.json`, fill it from `npm run i18n -- --missing <code>` (start from `{}`), and translate every entry.
 2. Import it in `src/i18n/index.js` and add it to `CATALOGS`.
 3. Add the code to `LOCALES` and its own-language name to `LOCALE_NAMES` in `src/i18n/locale.js`. Right-to-left languages also go in `RTL_LOCALES`.
-4. Add `src/i18n/locales/<code>.json` next to `ru.json` in `scripts/package-boundaries.json`.
-5. Write `docs/translations/<code>.md`: glossary, plural forms, units and style (copy the structure of `ru.md`).
+4. Add `src/i18n/locales/<code>.json` next to `ko.json` in `scripts/package-boundaries.json`.
+5. Write `docs/translations/<code>.md`: glossary, plural forms, units and style (copy the structure of `ko.md`).
 6. Run `npm run i18n` and `npm test`, then check the panels in the app at narrow widths.
 
 ## Rules
 
-- Keep every `{placeholder}` name exactly as in the English: do not rename, drop or add one. Its position inside the sentence follows the grammar of your language, e.g. `"{accepted} of {raw} records accepted"` → `"принято записей: {accepted} из {raw}"`.
-- UPPERCASE English stays UPPERCASE. Short labels, chips and HUD readouts should stay short; prefer an abbreviation over a wrapped line.
+- Keep every `{placeholder}` name exactly as in the English: do not rename, drop or add one. Its position inside the sentence follows the grammar of your language, e.g. `"{accepted} of {raw} records accepted"` → `"레코드 {raw}개 중 {accepted}개 수락"`.
+- UPPERCASE English labels stay as short as the English: in a language with case they stay UPPERCASE, in one without (Korean) they become an equally short label. Chips and HUD readouts should stay short; prefer an abbreviation over a wrapped line.
 - Keep the separators `·`, `—`, `→`, `↗`, `…`.
 - Leave product, provider and data names in their original form: Google Maps, Cesium ion, OpenAI, ChatGPT, NASA FIRMS, USGS, OpenSky, ADS-B, AIS, CCTV, HUD, TomTom, OpenStreetMap, Mapillary, and keyboard keys (Space, Esc, H, 1–9).
 - Units follow the language's convention; see the language notes.
@@ -63,4 +60,4 @@ These are contracts, not copy: layer ids and registry keys, status enums and oth
 
 ## Language notes
 
-Each language keeps its glossary, plural forms, units and style in its own file, `docs/translations/<code>.md`: [Spanish](./translations/es.md), [Russian](./translations/ru.md), [Simplified Chinese](./translations/zh-CN.md). Read it before translating, and add a term there when you settle on one.
+Each language keeps its glossary, plural forms, units and style in its own file, `docs/translations/<code>.md`: [Korean](./translations/ko.md). Read it before translating, and add a term there when you settle on one.

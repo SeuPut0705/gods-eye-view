@@ -89,7 +89,7 @@ for (const { name, options, expected } of CASES) {
     await methods.update();
     assert.equal(layerState._error, expected);
     try {
-      for (const locale of ['es', 'ru']) {
+      for (const locale of ['ko']) {
         setLocale(locale);
         const shown = translateKnown(layerState._error);
         assert.notEqual(shown, expected, `${locale}: ${name}`);

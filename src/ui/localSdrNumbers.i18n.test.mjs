@@ -31,17 +31,32 @@ test('en: SDR readings keep their English digits', () => {
   assert.match(view.statusText, /-18\.3 dBFS audio/);
 });
 
-for (const locale of ['es', 'ru']) {
-  test(`${locale}: SDR readings use the locale's decimal comma`, () => {
+const koNumber = (value, digits) =>
+  new Intl.NumberFormat('ko', {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value);
+
+for (const locale of ['ko']) {
+  test(`${locale}: SDR readings are formatted through Intl for the locale`, () => {
     setLocale(locale);
     try {
       const view = localSdrCardView(fm);
-      assert.match(view.statusText, /· 2,40 MS\/s IQ ·/);
-      assert.match(view.statusText, /· RF -21,4 dBFS ·/);
-      assert.match(view.statusText, /-18,3 dBFS/);
+      assert.ok(
+        view.statusText.includes(`· ${koNumber(2.4, 2)} MS/s IQ ·`),
+        view.statusText,
+      );
+      assert.ok(
+        view.statusText.includes(`· RF ${koNumber(-21.44, 1)} dBFS ·`),
+        view.statusText,
+      );
+      assert.ok(
+        view.statusText.includes(`${koNumber(-18.26, 1)} dBFS 오디오`),
+        view.statusText,
+      );
       const adsb = localSdrCardView({ ...fm, mode: 'adsb' });
-      assert.equal(adsb.stats.rate, '13,8');
-      assert.equal(adsb.stats.iq, '-21,4 dBFS');
+      assert.equal(adsb.stats.rate, koNumber(13.8, 1));
+      assert.equal(adsb.stats.iq, `${koNumber(-21.44, 1)} dBFS`);
       assert.equal(adsb.gainValue, '20.7', 'input values stay machine');
     } finally {
       setLocale('en');

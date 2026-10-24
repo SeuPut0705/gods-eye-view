@@ -33,7 +33,7 @@ test('en: the local ADS-B card keeps its English wording', () => {
   );
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the local ADS-B card is in the UI language`, () => {
     setLocale(locale);
     try {
@@ -51,7 +51,6 @@ for (const locale of ['es', 'ru']) {
         'browser SDR',
         'decoder feed',
         'Your RTL-SDR',
-        '12,500',
       ])
         assert.ok(
           !text.includes(english),
@@ -73,7 +72,7 @@ test('the class line names the aircraft class in the UI language', async () => {
       localAdsbClassLine(heli, { klass: 'helicopter', evidence: true }),
       'Helicopter · A7',
     );
-    for (const locale of ['es', 'ru']) {
+    for (const locale of ['ko']) {
       setLocale(locale);
       for (const [klass, label] of Object.entries(AIRCRAFT_CLASS_LABELS)) {
         const line = localAdsbClassLine({}, { klass, evidence: true });
@@ -86,14 +85,14 @@ test('the class line names the aircraft class in the UI language', async () => {
   }
 });
 
-// The receiver bands follow the UI language too ("1090 МГц").
-test('ru: the receiver line names the bands in Russian', async () => {
+// The receiver bands follow the UI language too (catalog entries "1090 MHz").
+test('ko: the receiver line names the bands from the catalog', async () => {
   const { localAdsbReceiverLine } = await import('./card.js');
-  setLocale('ru');
+  setLocale('ko');
   try {
     const line = localAdsbReceiverLine({ ...record, bands: ['1090', '978'] });
-    assert.match(line, /· 1090 МГц \+ 978 МГц UAT ·/);
-    assert.doesNotMatch(line, /MHz/);
+    assert.match(line, /· 1090 MHz \+ 978 MHz UAT ·/);
+    assert.match(line, /^수신기에서 수신됨/);
   } finally {
     setLocale('en');
   }

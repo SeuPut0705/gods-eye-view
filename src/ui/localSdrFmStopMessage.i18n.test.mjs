@@ -70,7 +70,7 @@ async function stopLocalFmForInternetRadio(t, locale) {
   return localSdrCardView(receiver.state);
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`FM stop message after internet radio start is shown in ${locale}`, async (t) => {
     const view = await stopLocalFmForInternetRadio(t, locale);
     assert.notEqual(

@@ -1,7 +1,7 @@
 import { formatNumber, t } from '../i18n/index.js';
 import { createSlider } from './slider.js';
 
-/** A slider value in the UI language: 0.85 in English, 0,85 in Spanish. */
+/** A slider value in the UI language: 0.85, with the language's separator. */
 const formatParam = (value, digits) =>
   formatNumber(value, {
     minimumFractionDigits: digits,

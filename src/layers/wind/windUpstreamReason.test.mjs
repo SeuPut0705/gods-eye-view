@@ -49,7 +49,7 @@ test('en: the upstream failure reason reads as before', async () => {
   );
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: upstream failure status is shown in the UI language`, async () => {
     const manifest = await serverManifestOnUpstreamFailure();
     assert.equal(manifest.reason, 'Wind upstream unavailable');

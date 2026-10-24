@@ -872,7 +872,7 @@ test('the nearest-image refusal is written in the language of the page', async (
   const { layer } = await withStreetView(t, { nearest: () => null });
   layer.setProviderEnabled('google', true);
   await settle();
-  setLocale('es');
+  setLocale('ko');
   try {
     await layer.openNearest(
       { lat: 38.58, lon: -121.49 },

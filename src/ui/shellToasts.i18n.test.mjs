@@ -88,7 +88,7 @@ test('the Cockpit refusal keeps its English wording per noun', () => {
   ]);
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the Cockpit refusal is translated`, () => {
     setLocale(locale);
     const log = [];

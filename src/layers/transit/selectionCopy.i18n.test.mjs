@@ -39,7 +39,7 @@ test('en: the copy is unchanged with and without the i18n t()', () => {
   ]);
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: the Transit card is in the UI language`, () => {
     setLocale(locale);
     try {

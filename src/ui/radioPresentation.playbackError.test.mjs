@@ -47,7 +47,7 @@ const PLAYBACK_ERRORS = [
   'Broadcaster stream is unavailable or blocked by the browser.',
 ];
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`radio playback errors are localized in ${locale}`, () => {
     setLocale(locale);
     try {

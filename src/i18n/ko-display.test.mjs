@@ -9,14 +9,16 @@ import { createModel } from '../layers/firms/model.js';
 import { createQueries } from '../layers/firms/queries.js';
 import { renderRadioState } from '../ui/radioPresentation.js';
 
-test('Chinese HUD and cockpit units keep their case without spacing coordinates', () => {
+test('Korean HUD and cockpit units keep their case and are spaced from the number', () => {
   try {
-    setLocale('zh-CN');
+    setLocale('ko');
     assert.equal(hudQuantity(0, 'km'), '0 km');
     assert.equal(hudQuantity(2069, 'km', 1), '2069.0 km');
     assert.equal(formatCockpitDistance(14000), '14\u00a0km');
-    assert.equal(LOCALIZED_LOCALITY.sector({ latDeg: 21.33, lonDeg: -77.5 }),
-      '扇区 21.33N 77.50W');
+    assert.equal(
+      LOCALIZED_LOCALITY.sector({ latDeg: 21.33, lonDeg: -77.5 }),
+      '섹터 21.33북 77.50서',
+    );
     setLocale('en');
     assert.equal(hudQuantity(0, 'km'), '0KM');
     assert.equal(hudQuantity(2069, 'km', 1), '2069.0KM');
@@ -34,10 +36,15 @@ test('FIRMS stale cache age uses localized durations while English stays compact
   };
   const { methods } = createQueries({ layerState, components, config: {} });
   try {
-    for (const [hours, zh, en] of [[0.5, '不到 1 小时', '<1h'], [2, '2 小时', '2h'], [72, '3 天', '3d']]) {
+    for (const [hours, ko, stale, en] of [
+      [0.5, '<1시간', '지연 · <1시간 전 캐시', '<1h'],
+      [2, '2시간', '지연 · 2시간 전 캐시', '2h'],
+      [72, '3일', '지연 · 3일 전 캐시', '3d'],
+    ]) {
       layerState._lastUpdate = now - hours * 3600000;
-      setLocale('zh-CN');
-      const expected = t('STALE · cached {age}', { age: zh });
+      setLocale('ko');
+      const expected = t('STALE · cached {age}', { age: ko });
+      assert.equal(expected, stale);
       assert.equal(methods.getStats().loadingLabel, expected);
       assert.equal(methods.getStats().error, expected);
       setLocale('en');
@@ -48,12 +55,12 @@ test('FIRMS stale cache age uses localized durations while English stays compact
   }
 });
 
-test('Recent Imagery spaces numeric Chinese ages and retains natural relative dates', () => {
+test('Recent Imagery reads Korean relative ages with natural today and yesterday', () => {
   try {
-    setLocale('zh-CN');
-    assert.equal(READOUT_WORDS.daysAgo(9), '9 天前');
-    assert.equal(READOUT_WORDS.daysAgo(0), '今天');
-    assert.equal(READOUT_WORDS.daysAgo(1), '昨天');
+    setLocale('ko');
+    assert.equal(READOUT_WORDS.daysAgo(9), '9일 전');
+    assert.equal(READOUT_WORDS.daysAgo(0), '오늘');
+    assert.equal(READOUT_WORDS.daysAgo(1), '어제');
     setLocale('en');
     assert.equal(READOUT_WORDS.daysAgo(9), '9 days ago');
     assert.equal(READOUT_WORDS.daysAgo(0), 'today');
@@ -64,7 +71,10 @@ test('Recent Imagery spaces numeric Chinese ages and retains natural relative da
 
 test('CCTV translates the healthy status and preserves unknown provider codes', () => {
   try {
-    for (const [locale, expected] of [['zh-CN', '正常'], ['ru', 'НОРМА'], ['es', 'OK'], ['en', 'OK']]) {
+    for (const [locale, expected] of [
+      ['ko', '정상'],
+      ['en', 'OK'],
+    ]) {
       setLocale(locale);
       assert.equal(cctvSourceStatusLabel('ok'), expected);
       assert.equal(cctvSourceStatusLabel('CUSTOM'), 'CUSTOM');
@@ -77,23 +87,37 @@ test('CCTV translates the healthy status and preserves unknown provider codes', 
 test('radio option text and accessible name use the same localized parentheses', () => {
   const originalDocument = globalThis.document;
   const element = () => ({
-    style: {}, dataset: {}, attributes: {},
+    style: {},
+    dataset: {},
+    attributes: {},
     classList: { contains: () => true, toggle() {} },
-    setAttribute(name, value) { this.attributes[name] = value; },
-    replaceChildren(...children) { this.children = children; },
+    setAttribute(name, value) {
+      this.attributes[name] = value;
+    },
+    replaceChildren(...children) {
+      this.children = children;
+    },
   });
   globalThis.document = { createElement: element, getElementById: () => null };
   try {
-    for (const [locale, label, expected] of [['zh-CN', '全部', '全部（750）'], ['en', 'All', 'All (750)']]) {
+    for (const [locale, label, expected] of [
+      ['ko', '전체', '전체 (750)'],
+      ['en', 'All', 'All (750)'],
+    ]) {
       setLocale(locale);
       const host = {
-        _radioPanel: element(), _radioFilter: element(),
+        _radioPanel: element(),
+        _radioFilter: element(),
         _syncContextRadioLauncherState() {},
         actions: { getLifecycle: () => null, scheduleLayout() {} },
       };
       renderRadioState.call(host, {
-        enabled: true, categories: [{ id: 'all', label, count: 750, color: '' }],
-        filter: 'all', filteredCount: 750, stationCount: 750, volume: 1,
+        enabled: true,
+        categories: [{ id: 'all', label, count: 750, color: '' }],
+        filter: 'all',
+        filteredCount: 750,
+        stationCount: 750,
+        volume: 1,
       });
       const option = host._radioFilter.children[0];
       assert.equal(option.textContent, `● ${expected}`);

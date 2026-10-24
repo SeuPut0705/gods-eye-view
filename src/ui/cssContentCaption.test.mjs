@@ -1,5 +1,5 @@
 // The CCTV "ACQUIRING FRAME" caption lives in CSS `content:` and the
-// i18n scanner (scripts/i18n.mjs) never reads CSS, so es/ru show it in English.
+// i18n scanner (scripts/i18n.mjs) never reads CSS, so ko shows it in English.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -26,9 +26,8 @@ test('no user-visible text in CSS content: outside decorative themes', () => {
   assert.deepEqual(hits, []);
 });
 
-test('the CCTV acquisition caption has es and ru translations', () => {
-  for (const lang of ['es', 'ru']) {
-    const dict = JSON.parse(readFileSync(path.join(LOCALES, `${lang}.json`), 'utf8'));
-    assert.ok('ACQUIRING FRAME' in dict, `${lang}.json lacks "ACQUIRING FRAME"`);
-  }
+test('the CCTV acquisition caption has a Korean translation', () => {
+  const dict = JSON.parse(readFileSync(path.join(LOCALES, 'ko.json'), 'utf8'));
+  assert.ok('ACQUIRING FRAME' in dict, 'ko.json lacks "ACQUIRING FRAME"');
+  assert.notEqual(dict['ACQUIRING FRAME'], 'ACQUIRING FRAME');
 });

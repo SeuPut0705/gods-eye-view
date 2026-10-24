@@ -575,7 +575,7 @@ body.cockpit-mode:has(#left-panel-stack > .panel-collapsible:not(.collapsed))
   text-align: center;
   vertical-align: -0.08em;
 }
-/* Grouping and decimal separators (a space or comma in Spanish and Russian)
+/* Grouping and decimal separators (a space or comma in some languages)
    get a narrow cell; English keeps the full 0.56em cell. */
 html:not([lang='en']) .cockpit-roll-token.is-separator {
   min-width: 0.3em;

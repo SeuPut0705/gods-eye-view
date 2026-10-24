@@ -48,12 +48,12 @@ test('English ALPR retry chip keeps the layer name (as on main)', () => {
   assert.equal(alprChipDetail('en', -1000), 'ALPR cameras · retry pending');
 });
 
-test('Spanish ALPR retry chip keeps the layer name', () => {
-  assert.match(alprChipDetail('es', 12000), /ALPR.* · reintento en 12 s/);
+test('Korean ALPR retry chip keeps the layer name', () => {
+  assert.match(alprChipDetail('ko', 12000), /ALPR.* · 12초 후 재시도/);
 });
 
-test('Spanish ALPR retry-pending chip is translated', () => {
-  const detail = alprChipDetail('es', -1000);
+test('Korean ALPR retry-pending chip is translated', () => {
+  const detail = alprChipDetail('ko', -1000);
   assert.match(detail, /ALPR/);
   assert.doesNotMatch(detail, /retry pending/);
 });
@@ -79,7 +79,7 @@ test('English presentation passes through unchanged', () => {
   }
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: every mapped-site retry label is translated with its detail`, () => {
     setLocale(locale);
     for (const label of [

@@ -107,7 +107,7 @@ const COMPASS_POINT_LABELS = Object.freeze({
 });
 
 /**
- * The shown label for a compass point code (`N`, `SW`…): С, ЮЗ… in Russian.
+ * The shown label for a compass point code (`N`, `SW`…): 북, 남서… in Korean.
  * Anything else (a degree reading such as `030`) passes through unchanged.
  */
 export function compassPointLabel(code) {
@@ -116,7 +116,7 @@ export function compassPointLabel(code) {
     : code;
 }
 
-/** `30.203°N` in the active language: `30,203° с. ш.` in Russian. */
+/** `30.203°N` in the active language, with its translated hemisphere label. */
 export function formatCockpitCoordinate(value, positive, negative) {
   const amount = formatNumber(Math.abs(value), {
     useGrouping: false,
@@ -140,8 +140,8 @@ export function formatCockpitCoordinate(value, positive, negative) {
 }
 
 /**
- * A contact distance such as `4.2 KM` / `44 KM` in the active language
- * (`4,2 КМ`): one decimal under 10 km, whole kilometres beyond.
+ * A contact distance such as `4.2 KM` / `44 KM` in English, `4.2 km` in
+ * Korean: one decimal under 10 km, whole kilometres beyond.
  */
 export function formatCockpitDistance(distanceM) {
   const digits = distanceM < 10000 ? 1 : 0;
@@ -149,7 +149,7 @@ export function formatCockpitDistance(distanceM) {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits,
   });
-  return getLocale() === 'zh-CN' ? distance : distance.toUpperCase();
+  return getLocale() === 'ko' ? distance : distance.toUpperCase();
 }
 
 export function formatCockpitWindDirection(value) {

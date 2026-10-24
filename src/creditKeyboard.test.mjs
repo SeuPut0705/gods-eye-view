@@ -207,8 +207,7 @@ test('English keeps Cesium attribution texts', () => {
 });
 
 for (const [locale, link, title] of [
-  ['ru', 'Источники данных', 'Данные предоставлены:'],
-  ['es', 'Atribución de datos', 'Datos proporcionados por:'],
+  ['ko', '데이터 출처 표시', '데이터 제공:'],
 ])
   test(`${locale}: Cesium attribution link and lightbox title are translated`, () => {
     setLocale(locale);

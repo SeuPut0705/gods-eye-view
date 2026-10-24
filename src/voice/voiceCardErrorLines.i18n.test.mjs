@@ -69,7 +69,7 @@ function cardFor(locale, { name, args, result }) {
   return voiceCardView(state);
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   for (const c of CASES) {
     test(`${locale}: ${c.name} failure shows the card lines in the UI language`, () => {
       const view = cardFor(locale, c);

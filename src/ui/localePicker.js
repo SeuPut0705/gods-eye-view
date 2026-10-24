@@ -21,8 +21,7 @@ export const LOCALE_SEARCH_THRESHOLD = 8;
 export const TYPEAHEAD_RESET_MS = 500;
 
 /**
- * Text folded for search: no diacritics, lower case. 'Español' → 'espanol',
- * 'Ёжик' → 'ежик'.
+ * Text folded for search: no diacritics, lower case. 'Français' → 'francais'.
  * @param {unknown} text
  * @returns {string}
  */

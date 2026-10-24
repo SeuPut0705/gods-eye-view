@@ -133,7 +133,7 @@ test('falls back to arrayBuffer() for a body with no stream reader', async () =>
   assert.equal(buf[0], 9);
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: an oversized upstream response is translated`, async () => {
     const response = new Response('x'.repeat(10), {
       headers: { 'content-length': '10' },

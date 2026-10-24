@@ -21,8 +21,7 @@ test('en: place names pass through unchanged', () => {
 });
 
 for (const [locale, tokyo, losAngeles] of [
-  ['ru', 'Токио', 'Лос-Анджелес'],
-  ['es', 'Tokio', 'Los Ángeles'],
+  ['ko', '도쿄', '로스앤젤레스'],
 ]) {
   test(`${locale}: preset names are translated, other places shown as given`, () => {
     setLocale(locale);
@@ -49,8 +48,8 @@ function element() {
   };
 }
 
-test('ru: location pills and the mini-status show the translated city', () => {
-  setLocale('ru');
+test('ko: location pills and the mini-status show the translated city', () => {
+  setLocale('ko');
   const elements = {
     pills: element(),
     poiRow: element(),
@@ -75,8 +74,8 @@ test('ru: location pills and the mini-status show the translated city', () => {
     requestFrame: () => 0,
     cancelFrame() {},
   });
-  assert.equal(elements.pills.children[0].textContent, 'Токио');
+  assert.equal(elements.pills.children[0].textContent, '도쿄');
   controls.renderStatus({ city: CITY_POIS.tokyo, currentPoi: null });
-  assert.equal(elements.statusCity.textContent, '📍 Токио');
+  assert.equal(elements.statusCity.textContent, '📍 도쿄');
   assert.equal(CITY_POIS.tokyo.name, 'Tokyo');
 });

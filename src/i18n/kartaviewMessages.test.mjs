@@ -23,7 +23,7 @@ const MESSAGES = [
   'KartaView has no position for this photo',
 ];
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`KartaView provider messages are translated in ${locale}`, () => {
     setLocale(locale);
     try {
@@ -44,7 +44,7 @@ test('KartaView HTTP and refusal codes keep their number in every language', asy
   const refused = 'KartaView refused the request (code 610)';
   assert.equal(translateStreetLevelError(http), http);
   assert.equal(translateStreetLevelError(refused), refused);
-  for (const locale of ['es', 'ru']) {
+  for (const locale of ['ko']) {
     setLocale(locale);
     try {
       const shownHttp = translateStreetLevelError(http);

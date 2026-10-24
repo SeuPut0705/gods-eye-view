@@ -21,7 +21,7 @@ const englishLabel = Object.fromEntries(
   pack.classes.map((c) => [c, installationClassLabel(c)]),
 );
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`every names-pack class is in the ${locale} catalog`, () => {
     const catalog = getCatalog(locale);
     const missing = pack.classes.filter(

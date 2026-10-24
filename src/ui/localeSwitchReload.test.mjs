@@ -68,7 +68,7 @@ test.after(() => {
 test('nothing to lose: the switch reloads without asking', () => {
   const view = renderSwitch();
   try {
-    view.choose('es');
+    view.choose('ko');
     assert.deepEqual(view.prompts, []);
     assert.equal(view.reloads.length, 1);
   } finally {
@@ -80,13 +80,13 @@ test('unsaved calibration or the open cockpit: the switch asks first', () => {
   const view = renderSwitch({ calDirty: true, cockpit: true });
   try {
     view.answer(false);
-    view.choose('ru');
+    view.choose('ko');
     assert.equal(view.prompts.length, 1);
     assert.match(view.prompts[0], /unsaved CCTV calibration/);
     assert.match(view.prompts[0], /the open cockpit/);
     assert.equal(view.reloads.length, 0, 'declined: no reload');
     view.answer(true);
-    view.choose('ru');
+    view.choose('ko');
     assert.equal(view.reloads.length, 1, 'confirmed: reload');
   } finally {
     view.restore();
@@ -101,7 +101,7 @@ test('modules register their own unsaved work', () => {
   const view = renderSwitch();
   try {
     view.answer(false);
-    view.choose('es');
+    view.choose('ko');
     assert.match(view.prompts[0], /drawings on the map/);
     assert.equal(view.reloads.length, 0);
   } finally {
@@ -113,12 +113,16 @@ test('modules register their own unsaved work', () => {
 });
 
 test('the prompt reads in the active language', () => {
-  setLocale('es');
+  setLocale('ko');
   const view = renderSwitch({ calDirty: true });
   try {
     view.answer(false);
     view.choose('en');
     assert.equal(view.prompts.length, 1);
+    assert.equal(
+      view.prompts[0],
+      '언어를 전환하면 페이지를 다시 불러옵니다. 다음 항목이 사라집니다: 저장되지 않은 CCTV 보정. 그래도 전환하시겠습니까?',
+    );
     assert.doesNotMatch(view.prompts[0], /Switching language/);
   } finally {
     view.restore();

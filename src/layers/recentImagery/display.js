@@ -3,12 +3,7 @@
  * day's readout. The model (`model.js`) stays English and i18n-free because AI
  * tool services import it outside the browser; this module is page-only.
  */
-import {
-  formatDate,
-  formatRelativeTime,
-  getLocale,
-  t,
-} from '../../i18n/index.js';
+import { formatDate, formatRelativeTime, t } from '../../i18n/index.js';
 import { formatQuantity } from '../../ui/unitLabels.js';
 import { dayTime } from './model.js';
 
@@ -19,22 +14,19 @@ const SHORT_DAY = Object.freeze({
 });
 const LONG_DAY = Object.freeze({ ...SHORT_DAY, year: 'numeric' });
 
-/** `Sep 18` / `18 сент.` for a `YYYY-MM-DD` day, in the page's language. */
+/** `Sep 18` / `9월 18일` for a `YYYY-MM-DD` day, in the page's language. */
 export function displayDay(day, options = SHORT_DAY) {
   const time = dayTime(day);
   return time === null ? '' : formatDate(time, options);
 }
 
-/** `30 m` / `30 м`, number and unit kept together. */
+/** `30 m`, number and unit kept together. */
 export const displayMetres = (value) => formatQuantity(value, 'm');
 
 /** The readout's words in the page's language; the model keeps them English. */
 export const READOUT_WORDS = Object.freeze({
   date: (day) => displayDay(day, LONG_DAY),
-  daysAgo: (delta) => {
-    const text = formatRelativeTime(delta > 0 ? -delta : 0, 'day');
-    return getLocale() === 'zh-CN' ? text.replace(/(\d)(?=天)/g, '$1 ') : text;
-  },
+  daysAgo: (delta) => formatRelativeTime(delta > 0 ? -delta : 0, 'day'),
   // "Sentinel-2" never breaks at its hyphen: a word joiner follows it
   // (JetBrains Mono has no U+2011 non-breaking hyphen).
   sensor: (sensor) =>

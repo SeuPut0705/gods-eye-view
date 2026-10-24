@@ -60,7 +60,7 @@ function harness(feed) {
 const translated = () => t(SERVER_COVERAGE);
 
 test('es: server snapshot without storms -> coverage line in Spanish', async () => {
-  setLocale('es');
+  setLocale('ko');
   try {
     assert.notEqual(translated(), SERVER_COVERAGE, 'es.json has a translation');
     const layer = harness({ getSnapshot: async () => snapshot([]) });
@@ -78,7 +78,7 @@ test('es: server snapshot without storms -> coverage line in Spanish', async () 
 });
 
 test('es: server snapshot with a storm -> coverage line in Spanish', async () => {
-  setLocale('es');
+  setLocale('ko');
   try {
     const layer = harness({ getSnapshot: async () => snapshot([storm]) });
     layer.enable();
@@ -95,7 +95,7 @@ test('es: server snapshot with a storm -> coverage line in Spanish', async () =>
 });
 
 test('es: unavailable without reason -> fallback status not the English literal', async () => {
-  setLocale('es');
+  setLocale('ko');
   try {
     const layer = harness({
       getSnapshot: async () =>

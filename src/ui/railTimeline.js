@@ -6,7 +6,7 @@ const set = (node, key, value) => {
 /**
  * "HH:MM UTC" of a time, or '' when it is not one. Computed on its own rather
  * than cut from the dated readout: the localized day and month vary in length
- * ("3/9" in Spanish, "09-03" in English).
+ * ("10. 13." in Korean, "10-13" in English).
  */
 export const utcClock = (tick) =>
   Number.isFinite(Date.parse(tick))

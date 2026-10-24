@@ -164,7 +164,7 @@ function directionWord(modifier) {
 
 /**
  * The side to keep at a fork. English reuses the turn words; a language may
- * need another form here ("держитесь левее", not "держитесь налево").
+ * need another form here ("keep left", not "turn left").
  */
 function forkWord(modifier) {
   switch (modifier) {
@@ -187,7 +187,7 @@ function forkWord(modifier) {
   }
 }
 
-/** The lane to use, as an adjective where a language needs one ("левую полосу"). */
+/** The lane to use, as an adjective where a language needs one ("the left lane"). */
 function laneWord(modifier) {
   switch (modifier) {
     case 'left':

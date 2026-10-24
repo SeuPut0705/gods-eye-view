@@ -56,11 +56,13 @@ const radius = {
   },
 };
 
-test('analyst card in es has no English text', () => {
-  setLocale('es');
+test('analyst card in ko has no English text', () => {
+  setLocale('ko');
   try {
     const { view } = cardFor('analyst_query', analyst);
+    assert.equal(view.result.title, '항공기 3대 불러온 데이터 전체');
     assert.doesNotMatch(view.result.title, /anywhere in the loaded data/);
+    assert.deepEqual(view.result.chips, ['저하', '부분']);
     assert.ok(!view.result.chips.includes('partial'));
     assert.ok(!view.result.chips.includes('degraded'));
     assert.ok(!view.result.notes.some((n) => n.startsWith('Not answered')));
@@ -69,8 +71,8 @@ test('analyst card in es has no English text', () => {
   }
 });
 
-test('analyst scope, window and caveats in ru', () => {
-  setLocale('ru');
+test('analyst scope, window and caveats in ko', () => {
+  setLocale('ko');
   try {
     const { shaped, view } = cardFor('analyst_query', radius);
     assert.match(shaped.say, /^At least 1,234 aircraft in view/);
@@ -78,7 +80,7 @@ test('analyst scope, window and caveats in ru', () => {
       JSON.stringify(view.result),
       /aircraft|within|view centre|last 24 h|counted|loading|ground distance|loads by viewport/,
     );
-    assert.match(view.result.title, /^1\s234 /);
+    assert.equal(view.result.title, '최소 항공기 1,234대 뷰 내');
   } finally {
     setLocale('en');
   }

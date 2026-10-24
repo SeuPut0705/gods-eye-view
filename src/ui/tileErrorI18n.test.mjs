@@ -62,15 +62,10 @@ test('en: tile and weather image failures stay English', () => {
 });
 
 const EXPECTED = {
-  ru: {
-    metadata: 'Метаданные векторных тайлов недоступны',
-    http: 'Векторные тайлы недоступны (HTTP 503)',
-    weather: 'Снимок погоды: HTTP 404',
-  },
-  es: {
-    metadata: 'Metadatos de teselas vectoriales no disponibles',
-    http: 'Teselas vectoriales no disponibles (HTTP 503)',
-    weather: 'Imagen del clima: HTTP 404',
+  ko: {
+    metadata: '벡터 타일 메타데이터 사용 불가',
+    http: '벡터 타일 사용 불가 (HTTP 503)',
+    weather: '기상 이미지 HTTP 404',
   },
 };
 

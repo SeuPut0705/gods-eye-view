@@ -24,19 +24,19 @@ test('English readings and scales read exactly as the unit ids', () => {
   );
 });
 
-test('other languages get their decimal separator and no digit grouping', () => {
+test('Korean readings keep the unit ids and group no digits', () => {
   try {
-    setLocale('ru');
-    assert.match(
+    setLocale('ko');
+    assert.equal(
       formatQuantity(22, 'km/h', {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
       }),
-      /^22,0 \S+$/,
+      '22.0\u00a0km/h',
     );
-    assert.match(formatQuantity(1050, 'hPa'), /^1050 /);
+    assert.equal(formatQuantity(1050, 'hPa'), '1050\u00a0hPa');
     assert.deepEqual(['0.1', '-40', '1050+'].map(formatScaleLabel), [
-      '0,1',
+      '0.1',
       '-40',
       '1050+',
     ]);

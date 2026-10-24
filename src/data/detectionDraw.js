@@ -35,7 +35,7 @@ export function formatFlightLevel(altitudeMeters) {
  * Returns '' for non-positive or non-finite speeds (declutters moored/unknown
  * vessels).
  * @param {number} knots - Speed over ground in knots.
- * @returns {string} e.g. '14 kn' (ru '14 уз'), or '' when not applicable.
+ * @returns {string} e.g. '14 kn', or '' when not applicable.
  */
 export function formatKnots(knots) {
   if (!Number.isFinite(knots) || knots <= 0) return '';

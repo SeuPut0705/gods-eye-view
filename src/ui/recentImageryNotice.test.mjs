@@ -49,15 +49,10 @@ test('E3/E12: the pointer owner is named by its tool, never by its id', () => {
       directions: 'Directions',
       'recent-imagery-box': 'Recent imagery',
     },
-    ru: {
-      draw: 'Рисование',
-      directions: 'Маршруты',
-      'recent-imagery-box': 'Свежие снимки',
-    },
-    es: {
-      draw: 'Dibujo',
-      directions: 'Indicaciones',
-      'recent-imagery-box': 'Imágenes recientes',
+    ko: {
+      draw: '그리기',
+      directions: '길찾기',
+      'recent-imagery-box': '최근 영상',
     },
   };
   try {
@@ -82,7 +77,7 @@ test('E3/E12: the pointer owner is named by its tool, never by its id', () => {
   }
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`${locale}: box-tool and model refusals are translated`, () => {
     setLocale(locale);
     try {
@@ -90,7 +85,7 @@ for (const locale of ['es', 'ru']) {
         assert.notEqual(localizeNotice(text), text, `untranslated: ${text}`);
       assert.match(
         localizeNotice('Imagery stops at ±85.05° latitude'),
-        /85,05/,
+        /85\.05/,
       );
       assert.doesNotMatch(
         localizeNotice('draw is using the pointer — close it first'),

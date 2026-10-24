@@ -1,6 +1,6 @@
 // God's Eye View i18n: the English source text is the message key.
 //
-//   t('Save keys')                                   → 'Сохранить ключи'
+//   t('Save keys')                                   → '키 저장'
 //   t('Cleared {name}', { name })                    → named interpolation
 //   tn(count, '{count} camera', '{count} cameras')   → plural by Intl.PluralRules
 //   t('CLEAR', { context: 'action' })                → same English, own entry
@@ -16,11 +16,9 @@ import {
   normalizeLocale,
   writeStoredLocale,
 } from './locale.js';
-import es from './locales/es.json' with { type: 'json' };
-import ru from './locales/ru.json' with { type: 'json' };
-import zhCN from './locales/zh-CN.json' with { type: 'json' };
+import ko from './locales/ko.json' with { type: 'json' };
 
-const CATALOGS = Object.freeze({ es, ru, 'zh-CN': zhCN });
+const CATALOGS = Object.freeze({ ko });
 
 let currentLocale = DEFAULT_LOCALE;
 
@@ -94,8 +92,8 @@ export function t(text, values) {
 
 /**
  * Translate a count-dependent message. The catalog entry for `other` holds
- * one form per Intl.PluralRules category of the locale ({ one, few, many, other }
- * for Russian). `{count}` is always available to the pattern: the raw number,
+ * one form per Intl.PluralRules category of the locale ({ one, other } for
+ * English, { other } for Korean). `{count}` is always available to the pattern: the raw number,
  * unless `values.count` gives its display text, e.g. `formatNumber(n)`.
  * @param {number} count
  * @param {string} one English singular, e.g. '{count} camera'
@@ -180,7 +178,7 @@ const UTC_DAY_MONTH = Object.freeze({
 
 /**
  * The UTC day and month of a time, for "MM-DD HH:MM UTC" readouts: "10-13" in
- * English, "13.10" in Russian, "13/10" in Spanish, never read as a
+ * English, "10. 13." in Korean, never read as a
  * range. Takes an ISO string (its date part is used as written) or a time.
  * @param {string|number|Date} value
  * @returns {string} '' when the value is not a time.
@@ -200,7 +198,7 @@ export function formatUtcDayMonth(value) {
 
 /**
  * Locale-aware relative time (Intl.RelativeTimeFormat), e.g.
- * formatRelativeTime(-5, 'minute') → '5 minutes ago' / '5 минут назад'.
+ * formatRelativeTime(-5, 'minute') → '5 minutes ago' / '5분 전'.
  */
 export function formatRelativeTime(value, unit = 'second', options) {
   return cachedFormatter('relative', Intl.RelativeTimeFormat, {

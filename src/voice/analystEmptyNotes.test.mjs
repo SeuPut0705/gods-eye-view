@@ -74,13 +74,14 @@ const transitCoverage = [
   'transit: No feed here yet · 12 regions available',
 ];
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   for (const [layerKey, caveat] of cases) {
     test(`${locale}: analyst note "${caveat}" is translated`, () => {
       inLocale(locale, () => {
         const notes = notesFor(layerKey, caveat);
         assert.ok(notes.length > 0, 'the note is shown');
         assert.doesNotMatch(notes.join(' | '), /\b(stale|heard|old)\b/);
+        assert.match(notes.join(' | '), /[가-힣]/);
       });
     });
   }

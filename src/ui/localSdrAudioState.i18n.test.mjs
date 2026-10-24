@@ -30,12 +30,10 @@ const fmStreaming = {
 test('FM status line names the AudioContext state in the UI language', () => {
   try {
     for (const [locale, state] of [
-      ['es', 'running'],
-      ['ru', 'running'],
-      ['es', 'suspended'],
-      ['ru', 'closed'],
-      ['es', 'idle'],
-      ['ru', 'idle'],
+      ['ko', 'running'],
+      ['ko', 'suspended'],
+      ['ko', 'closed'],
+      ['ko', 'idle'],
     ]) {
       setLocale(locale);
       const text = localSdrCardView({
@@ -44,7 +42,7 @@ test('FM status line names the AudioContext state in the UI language', () => {
       }).statusText;
       assert.doesNotMatch(
         text,
-        new RegExp(`audio[: ]+${state}\\b|аудио[: ]+${state}\\b`),
+        new RegExp(`audio[: ]+${state}\\b`),
         `${locale}: ${text}`,
       );
     }

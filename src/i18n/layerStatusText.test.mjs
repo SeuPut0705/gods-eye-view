@@ -49,7 +49,7 @@ for (const [file, text] of SITES) {
   });
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   for (const [file, text] of SITES) {
     test(`${locale}: "${text}" from ${file} is translated`, () => {
       const source = readFileSync(new URL(file, import.meta.url), 'utf8');

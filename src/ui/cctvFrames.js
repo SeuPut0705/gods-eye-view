@@ -45,7 +45,7 @@ const SOURCE_LABELS = Object.freeze({
   'Synthetic fallback': msg('Synthetic fallback'),
 });
 
-/** "SNAPSHOT" / "СНИМОК"; unknown codes (HLS, MJPEG…) stay as uppercase codes. */
+/** "SNAPSHOT" / "스냅샷"; unknown codes (HLS, MJPEG…) stay as uppercase codes. */
 function cctvSourceKindLabel(kind) {
   const key = String(kind || 'unknown').toLowerCase();
   return SOURCE_KIND_LABELS[key]
@@ -53,7 +53,7 @@ function cctvSourceKindLabel(kind) {
     : key.toUpperCase();
 }
 
-/** "DEGRADED" / "ПЕРЕБОИ"; unknown codes stay as uppercase codes. */
+/** "DEGRADED" / "저하"; unknown codes stay as uppercase codes. */
 export function cctvSourceStatusLabel(status) {
   const key = String(status || 'unknown').toLowerCase();
   return SOURCE_STATUS_LABELS[key]

@@ -18,8 +18,7 @@ test('a fallback-only OAuth failure is shown without the wrapper in every locale
   t.after(() => setLocale('en'));
   const expected = {
     en: 'Could not check ChatGPT sign-in. Try again.',
-    ru: 'Не удалось проверить вход в ChatGPT. Попробуйте ещё раз.',
-    es: 'No se pudo comprobar el inicio de sesión de ChatGPT. Inténtalo de nuevo.',
+    ko: 'ChatGPT 로그인을 확인할 수 없습니다. 다시 시도하세요.',
   };
   for (const [locale, text] of Object.entries(expected)) {
     setLocale(locale);
@@ -45,9 +44,9 @@ test('a server-sent or network OAuth failure keeps the «OAuth check failed» wr
     oauthCheckFailureText(new TypeError('Failed to fetch')),
     'OAuth check failed: Failed to fetch',
   );
-  setLocale('ru');
+  setLocale('ko');
   assert.match(
     oauthCheckFailureText(server),
-    /^Не удалось проверить OAuth: Sign-in is local only\.$/,
+    /^OAuth 확인 실패: Sign-in is local only\.$/,
   );
 });

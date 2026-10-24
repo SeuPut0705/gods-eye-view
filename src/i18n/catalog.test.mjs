@@ -49,21 +49,19 @@ test('checkCatalog reports missing, stale, placeholder and plural problems', () 
     ['Untranslated', { plural: false }],
   ]);
   const result = checkCatalog(
-    'ru',
+    'ko',
     {
-      'Saved {name}': 'Сохранено {nmae}',
-      '{count} keys': {
-        one: '{count} ключ',
-        few: '{count} ключа',
-        many: '{count} ключей',
-      },
-      Removed: 'Удалено',
+      'Saved {name}': '{nmae} 저장됨',
+      '{count} keys': { one: '키 {count}개' },
+      Removed: '삭제됨',
     },
     fixture,
   );
   assert.deepEqual(result.missing, ['Untranslated']);
   assert.deepEqual(result.stale, ['Removed']);
   assert.equal(result.errors.length, 2);
+  assert.ok(result.errors.some((error) => /placeholders differ/.test(error)));
+  assert.ok(result.errors.some((error) => /lacks the "other" form/.test(error)));
 });
 
 test('checkCatalog reports a translation left in English unless it is allowed', () => {
@@ -80,7 +78,7 @@ test('checkCatalog reports a translation left in English unless it is allowed', 
     '{state} · {source}': '{state} · {source}',
   };
   const errors = (allowed) =>
-    checkCatalog('es', catalog, fixture, new Set(allowed)).errors;
+    checkCatalog('ko', catalog, fixture, new Set(allowed)).errors;
   assert.deepEqual(
     errors([]).map((error) => error.split(' is still English')[0]),
     ['"Bloom"', '"HDG"', '"voice|READY"'],

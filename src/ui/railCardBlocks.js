@@ -16,7 +16,7 @@ const order = (parent, nodes) =>
       parent.insertBefore(node, parent.children[i] || null);
   });
 
-// "960 — 1050+ гПа": the unit stays with the last number.
+// "960 — 1050+ hPa": the unit stays with the last number.
 const scaleText = (low, high, units) => {
   const unit = unitLabel(units);
   const range = `${formatScaleLabel(low)} — ${formatScaleLabel(high)}`;

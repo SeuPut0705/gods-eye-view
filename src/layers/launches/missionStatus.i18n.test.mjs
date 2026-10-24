@@ -76,10 +76,8 @@ test('the mission panel translates only the fallback status', (t) => {
   t.after(() => setLocale('en'));
   setLocale('en');
   assert.equal(shownStatus(UNKNOWN_LAUNCH_STATUS), 'Unknown');
-  setLocale('ru');
-  assert.equal(shownStatus(UNKNOWN_LAUNCH_STATUS), 'Неизвестно');
+  setLocale('ko');
+  assert.equal(shownStatus(UNKNOWN_LAUNCH_STATUS), '알 수 없음');
   assert.equal(shownStatus('Go for Launch'), 'Go for Launch');
-  setLocale('es');
-  assert.equal(shownStatus(UNKNOWN_LAUNCH_STATUS), 'Desconocido');
   assert.equal(shownStatus('Launch Successful'), 'Launch Successful');
 });

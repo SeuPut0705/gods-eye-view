@@ -58,7 +58,7 @@ export function localAdsbReceiverLine(record) {
     .join(' · ');
 }
 
-/** A receiver band (policy.js BAND_LABELS) in the UI language: "1090 МГц". */
+/** A receiver band (policy.js BAND_LABELS) in the UI language: "1090 MHz". */
 function bandLabel(band) {
   switch (String(band)) {
     case '1090':

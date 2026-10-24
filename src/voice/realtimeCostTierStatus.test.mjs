@@ -26,13 +26,9 @@ const EXPECTED = {
     mini: 'MINI applies next session',
     standard: 'STANDARD applies next session',
   },
-  ru: {
-    mini: 'МИНИ — со следующей сессии',
-    standard: 'СТАНДАРТ — со следующей сессии',
-  },
-  es: {
-    mini: 'MINI desde la próxima sesión',
-    standard: 'ESTÁNDAR desde la próxima sesión',
+  ko: {
+    mini: '미니 다음 세션부터 적용',
+    standard: '표준 다음 세션부터 적용',
   },
 };
 

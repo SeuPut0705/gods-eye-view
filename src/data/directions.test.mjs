@@ -854,21 +854,21 @@ test('route numbers follow the page language and never break from their unit', (
   assert.equal(routeDistanceText(-1), '');
   assert.equal(routeDurationText(Number.NaN), '');
 
-  setLocale('ru');
-  assert.equal(routeDistanceText(1500), '1,5\u00a0км');
-  assert.equal(routeDurationText(240), '4\u00a0мин');
+  setLocale('ko');
+  assert.equal(routeDistanceText(1500), '1.5\u00a0km');
+  assert.equal(routeDurationText(240), '4\u00a0분');
   assert.equal(
     directionsInstruction({
       type: 'turn',
       modifier: 'right',
       name: 'East 7th Street',
     }),
-    'Поверните направо на East 7th Street',
+    'East 7th Street 방향으로 오른쪽 회전',
   );
   assert.equal(
     directionsInstruction({ type: 'roundabout', exit: 2, name: '' }),
-    'На кольце сверните на 2-й съезд',
+    '회전교차로에서 2번째 출구로 나가기',
   );
   const list = directionsStepList({ route });
-  assert.equal(list.items[1].lead, '240\u00a0м');
+  assert.equal(list.items[1].lead, '240\u00a0m');
 });

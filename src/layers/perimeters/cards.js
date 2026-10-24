@@ -61,8 +61,8 @@ export function perimeterAnchorDegrees(polygons) {
 }
 
 /**
- * Compact USD in the UI language: en "$85K / $4.2M / $1.3B", ru "4,2 млн $",
- * es "4,2 M$". Null under $1,000.
+ * Compact USD in the UI language: en "$85K / $4.2M / $1.3B"; other languages
+ * use their own magnitude words. Null under $1,000.
  */
 function formatCost(dollars) {
   if (!Number.isFinite(dollars) || dollars < 1000) return null;

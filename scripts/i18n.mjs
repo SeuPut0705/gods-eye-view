@@ -2,7 +2,7 @@
 //
 //   npm run i18n                     check every catalog and find unmarked UI text
 //   npm run i18n -- --prune          also drop entries the code no longer uses
-//   npm run i18n -- --missing ru     print what ru lacks, as JSON to translate
+//   npm run i18n -- --missing ko     print what ko lacks, as JSON to translate
 //
 // A translation left as the English fails unless src/i18n/same-as-english.json
 // lists it.

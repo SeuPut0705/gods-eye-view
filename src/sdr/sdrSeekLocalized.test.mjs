@@ -26,7 +26,7 @@ function makeController() {
   return { c, seen };
 }
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`FM seek messages are localized in ${locale}`, async () => {
     setLocale(locale);
     try {
@@ -38,8 +38,8 @@ for (const locale of ['es', 'ru']) {
       for (const text of texts) {
         assert.doesNotMatch(text, /Seeking (up|down)|Scanning \d|Found \d/);
       }
-      // Decimal separator follows the locale (98,8 in es and ru).
-      assert.match(texts.at(-1), /98,8/);
+      // Korean keeps the English decimal point.
+      assert.match(texts.at(-1), /98\.8/);
     } finally {
       setLocale('en');
     }
@@ -57,7 +57,7 @@ test('FM seek messages keep their English wording and decimal point', async () =
   assert.match(texts.at(-1), /^Found 98\.8 MHz · \d+\.\d dB$/);
 });
 
-for (const locale of ['es', 'ru']) {
+for (const locale of ['ko']) {
   test(`a failed seek tune and a decoder overload are localized in ${locale}`, async () => {
     setLocale(locale);
     try {

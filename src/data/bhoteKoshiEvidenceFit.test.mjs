@@ -77,13 +77,10 @@ test('English source lines draw unchanged on every card', async () => {
   }
 });
 
-test('ru/es source lines fit the portrait card with the action word whole', async () => {
+test('ko source lines fit the portrait card with the action word whole', async () => {
   const observations = await portraitObservations();
   try {
-    for (const [locale, action] of [
-      ['ru', '/ ОТКРЫТЬ'],
-      ['es', '/ ABRIR'],
-    ]) {
+    for (const [locale, action] of [['ko', '/ 열기']]) {
       setLocale(locale);
       for (const observation of observations) {
         const line = drawSourceLine(observation);
@@ -95,25 +92,28 @@ test('ru/es source lines fit the portrait card with the action word whole', asyn
         assert.ok(fontPx(line.font) >= 21 * 0.8, 'font stays readable');
       }
     }
-    setLocale('ru');
-    const ru = drawSourceLine(observations[0]);
-    assert.equal(ru.text, 'ИСТОЧНИК YOUTUBE / ОТКРЫТЬ', 'publisher kept whole');
+    setLocale('ko');
+    const ko = drawSourceLine(observations[0]);
+    assert.equal(ko.text, 'YOUTUBE 출처 / 열기', 'publisher kept whole');
   } finally {
     setLocale('en');
   }
 });
 
-test('a publisher too long even at the smallest font is shortened, not the action', async () => {
+test('a publisher too long for the card is shortened, not the action', async () => {
   const [observation] = await portraitObservations();
   try {
-    setLocale('ru');
+    setLocale('ko');
     const line = drawSourceLine(
       observation,
       'A very long regional broadcaster',
     );
-    assert.ok(line.text.endsWith('... / ОТКРЫТЬ'), line.text);
+    assert.ok(line.text.endsWith('... / 열기'), line.text);
     assert.ok(measure(line.text, line.font) <= line.maxWidth, line.text);
-    assert.equal(fontPx(line.font), 21 * 0.8);
+    // The short Korean action word needs less shrinking than ru/es did, so the
+    // font lands between the floor and full size rather than on the floor.
+    assert.ok(fontPx(line.font) < 21, 'font shrank first');
+    assert.ok(fontPx(line.font) >= 21 * 0.8, 'font stays readable');
   } finally {
     setLocale('en');
   }
